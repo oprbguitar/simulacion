@@ -16,7 +16,8 @@ Horizonte es un prototipo local, anónimo y en español de Perú para explorar d
 - panel de resiliencia derivado de la reserva y señales del escenario;
 - imprevistos de desempleo de 3 meses y gasto médico inesperado;
 - undo/redo para cambiar de camino;
-- `/_studio` local para editar supuestos, insight, timeline y ordenar etapas;
+- `/_studio` one-page para probar escenarios, editar 15 supuestos y leer gráficos de flujo, patrimonio y rango;
+- persistencia local validada: los valores editados en Studio alimentan al simulador principal;
 - import/export JSON validado;
 - pruebas unitarias y smoke E2E.
 
@@ -72,7 +73,7 @@ La Fase 0/1 no conecta fuentes externas. Los valores visibles son `SEEDED_REFERE
 
 ## Studio
 
-El studio es solo local y no es una barrera de seguridad. Permite editar configuración validada, previsualizar, deshacer, resetear e importar/exportar. Antes de publicar debe desactivarse o protegerse con una autorización real.
+El Studio es solo local y no es una barrera de seguridad. Permite seleccionar situación y decisión, editar supuestos agrupados en Finanzas/Vivienda/Obra/Fuente, previsualizar, analizar tres gráficos, deshacer, resetear e importar/exportar. Los cambios válidos se guardan en `localStorage` y el simulador principal los carga al abrirse. Antes de publicar, la ruta debe desactivarse o protegerse con una autorización real.
 
 ## Estructura
 

@@ -4,13 +4,9 @@ import { HorizonHeader } from './components/HorizonHeader'
 import { LifeScene } from './components/LifeScene'
 import { LifeTimeline } from './components/LifeTimeline'
 import { ResiliencePanel } from './components/ResiliencePanel'
-import { cloneContentConfig, defaultContent } from './domain/content'
+import { loadStoredContent } from './domain/configStorage'
 import { createInitialScenario, selectHousingPath, simulateAction, simulateScenario, toggleStressEvent } from './domain/simulation'
 import type { ActionId, HousingPathId, LayerId, ScenarioState, StressEventId } from './domain/types'
-
-function initialScenario() {
-  return selectHousingPath(createInitialScenario(defaultContent), 'family')
-}
 
 function commitState(next: ScenarioState, current: ScenarioState, setCurrent: (value: ScenarioState) => void, setPast: Dispatch<SetStateAction<ScenarioState[]>>, setFuture: Dispatch<SetStateAction<ScenarioState[]>>) {
   setPast((items) => [...items, current])
@@ -19,8 +15,8 @@ function commitState(next: ScenarioState, current: ScenarioState, setCurrent: (v
 }
 
 export function App() {
-  const [config] = useState(() => cloneContentConfig(defaultContent))
-  const [scenario, setScenario] = useState(initialScenario)
+  const [config] = useState(loadStoredContent)
+  const [scenario, setScenario] = useState(() => selectHousingPath(createInitialScenario(config), 'family'))
   const [past, setPast] = useState<ScenarioState[]>([])
   const [future, setFuture] = useState<ScenarioState[]>([])
   const result = useMemo(() => simulateScenario(scenario, config), [scenario, config])

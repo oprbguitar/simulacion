@@ -56,3 +56,21 @@ Sin hero de marketing, bento grid, tarjetas anidadas, degradado morado-azul, gla
 ## Desviación intencional
 
 El arquetipo automático `rail lateral + workspace` se reemplaza por un workspace estratificado: un rail restaría ancho a la escena y rompería la composición explícitamente solicitada. Se mantienen las demás restricciones del selector. La referencia muestra edad, puntos y ubicación; se omiten porque el simulador no dispone de esos datos. Se muestran únicamente periodo, ahorro, reserva y patrimonio calculados.
+
+## Horizonte Studio 0.4
+
+### Modo y dirección
+
+El Studio es una superficie `operate` independiente. Usa el arquetipo asignado `split maestro-detalle`: rail de escenarios a la izquierda, preview y gráficos en el centro, inspector contextual a la derecha. Su lenguaje es técnico sin parecer un ERP: IBM Plex Sans/Mono, grafito, señal naranja y petróleo, radio de 4–6 px y densidad alta.
+
+### Lectura y gráficos
+
+El trabajo analítico es comparación/composición sobre datos deterministas. Tres figuras code-native permanecen visibles: flujo mensual (ingreso, compromisos y margen), posición patrimonial (liquidez frente a activo) y rango del paso simulado (económico, probable y conservador). Los valores tienen etiquetas directas, no dependen de hover y aclaran que son supuestos locales.
+
+### Interacción y persistencia
+
+Los escenarios controlan punto de partida y siguiente acción. El inspector muestra como máximo cinco campos a la vez mediante pestañas `Finanzas`, `Vivienda`, `Obra` y `Fuente`. Cada cambio actualiza preview y gráficos, se valida, se guarda en `localStorage` y pasa al simulador principal. Importar, exportar, deshacer, rehacer y restablecer se conservan.
+
+### Responsive Studio
+
+En escritorio el split completo ocupa `100dvh` sin scroll. A 768 px el rail se vuelve una barra superior y el inspector conserva ancho compacto. A 360 px se muestran pestañas de superficie `Escenario`, `Resultados` y `Datos`; solo una zona ocupa el cuerpo disponible, evitando scroll vertical y controles superpuestos. Los campos activos y acciones siguen disponibles por teclado y tacto.

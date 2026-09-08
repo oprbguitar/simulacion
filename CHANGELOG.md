@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] — 2026-09-08
+
+### Changed
+
+- reconstruido `/_studio` como editor one-page maestro-detalle sin scroll de documento;
+- añadidos escenarios interactivos y gráficos de flujo mensual, posición actual y rango económico/probable/conservador;
+- expuestos 15 supuestos editables de finanzas, vivienda y obra mediante pestañas compactas;
+- conectada la configuración validada del Studio con el simulador principal mediante almacenamiento local versionado;
+- añadida navegación móvil por superficies y pruebas de persistencia, gráficos y ajuste al viewport.
+
 ## [0.3.0] — 2026-09-08
 
 ### Changed

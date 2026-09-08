@@ -6,10 +6,11 @@ flowchart LR
   Web --> Content[ContentConfig validada]
   Web --> Engine[Motor determinista puro]
   Engine --> State[ScenarioState serializable]
-  State --> Scene[SVG 2.5D]
+  State --> Scene[Escena ilustrada + capas HTML]
   State --> Timeline[Timeline rail]
   State --> Insights[Reglas explicables]
-  Studio[/_studio local/] --> Content
+  Studio[/_studio local/] --> Storage[localStorage validado]
+  Storage --> Content
   Content --> Seed[data/seed futuro]
   Content -. futura publicación .-> Adapter[Adapter D1/R2]
   Sources[Fuentes A-E futuras] --> Adapter
@@ -17,9 +18,9 @@ flowchart LR
 
 ## Fronteras
 
-- `src/domain`: tipos, contenido y simulación; sin React.
+- `src/domain`: tipos, contenido, persistencia local validada y simulación; sin React.
 - `src/components`: composición visual y accesibilidad; sin fórmulas de negocio.
-- `src/studio`: edición local de configuración, import/export y preview.
+- `src/studio`: escenarios, edición local, gráficos, import/export y preview.
 - `data/seed`: supuestos de demo con origen explícito.
 - `docs`: contrato de fases, fuentes y límites.
 

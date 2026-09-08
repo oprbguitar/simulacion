@@ -3,8 +3,8 @@
 ## Capas
 
 - Unitarias: fórmulas de reserva, flujo, patrimonio, acciones, stress y reglas.
-- Integración ligera: contrato de contenido e import/export del studio.
-- E2E: selección de vivienda, acción, cambio visual, timeline, stress, undo y ajuste sin scroll en desktop/mobile.
+- Integración ligera: contrato de contenido, persistencia local e import/export del Studio.
+- E2E: selección de vivienda, acción, cambio visual, timeline, stress, undo, edición Studio→simulador, gráficos y ajuste sin scroll en desktop/mobile.
 - Manual: foco, labels de escena, reduced motion, consola y overflow horizontal/vertical a 360, 768, 1280 y 1600 px.
 
 ## Comandos
