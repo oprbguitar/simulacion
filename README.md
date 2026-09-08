@@ -7,10 +7,11 @@ Horizonte es un prototipo local, anónimo y en español de Perú para explorar d
 ## Qué funciona en este corte
 
 - pantalla única con la pregunta `¿Dónde vives actualmente?`;
-- cuatro caminos: familia, alquiler, terreno y sin propiedad;
+- selector visual de cuatro caminos: familia, alquiler, terreno y sin propiedad;
+- detalle de la ruta y del último paso dentro de la misma superficie, sin navegación profunda;
 - acciones deterministas de ahorro, terreno, alquiler y construcción inicial;
 - HUD de ahorro, ingreso, reserva, patrimonio y origen de datos;
-- escena SVG 2.5D de casa/terreno con capas seleccionables;
+- escena SVG 2.5D de casa/terreno con capas seleccionables y barra de capas sin superposición;
 - timeline mensual con hitos clicables y detalle del periodo;
 - tres reglas explicables de `¿Has pensado en esto?`;
 - modo `La vida pasa` con desempleo de 3 meses y gasto médico inesperado;
@@ -18,6 +19,8 @@ Horizonte es un prototipo local, anónimo y en español de Perú para explorar d
 - `/_studio` local para editar supuestos, insight, timeline y ordenar etapas;
 - import/export JSON validado;
 - pruebas unitarias y smoke E2E.
+
+Las imágenes de los selectores viven en `public/assets/`. Son ilustraciones locales sin texto incrustado: el contenido visible sigue siendo HTML accesible y el Studio conserva la posibilidad de editar/importar el contrato sin depender de un servicio externo.
 
 ## Inicio local
 

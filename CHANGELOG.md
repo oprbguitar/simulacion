@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0] — 2026-09-08
+
+### Changed
+
+- reemplazado el rail de filas de texto por selectores visuales de vivienda y acciones;
+- añadido detalle de ruta y paso simulado dentro de la misma superficie;
+- reorganizada la escena a ancho completo y retirada la superposición de la barra de capas;
+- incorporadas ilustraciones locales accesibles para los selectores y cobertura E2E del flujo visual.
+
 ## [0.1.0] — 2026-09-07
 
 ### Added

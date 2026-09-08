@@ -6,7 +6,7 @@ Superficie `experience` con una capa `operate`: una persona explora decisiones h
 
 ## Dirección
 
-Tablero de ruta editorial por bandas, escena 2.5D de vivienda/terreno, timeline accionable, tinta oscura, acero, verde eléctrico y separadores fuertes. El selector visual asignó `Space Grotesk` + `Noto Sans` + `Space Mono`, paleta acero + verde eléctrico, geometría de bloque y motion mínimo.
+Rediseño `experience` con una ruta visual de selección y detalle: la escena 2.5D ocupa el ancho útil y debajo aparece un conjunto comparable de imágenes de vivienda. El selector visual para esta iteración asignó `Source Serif 4` + `Source Sans 3` + `Source Code Pro`, paleta carbón + lima + azul de apoyo, arquetipo de portada tipográfica con índice, geometría recta y motion seco de 120–160 ms. La referencia entregada por la persona usuaria fija además tres decisiones: imágenes grandes antes del texto, estado seleccionado inequívoco y detalle contextual dentro de la misma superficie.
 
 ## Usuarios y tarea
 
@@ -14,11 +14,11 @@ Personas en Perú que quieren comparar vivir con familia, alquilar, comprar terr
 
 ## Layout y componentes
 
-`AppShell` contiene `Hud`, `HouseScene`, `ChoiceRail`, `Timeline`, `InsightStrip` y `StressTester`. La escena permanece cerca del inicio; en móvil aparece antes del rail de decisiones y el timeline conserva su scroll local.
+`AppShell` contiene `Hud`, `HouseScene`, `ChoiceRail`, `Timeline`, `InsightStrip` y `StressTester`. La escena es el foco visual de ancho completo; `ChoiceRail` deja de ser un listado lateral y se convierte en un workbench: selector de imágenes de punto de partida, panel de detalle persistente y selector de acciones con imágenes. En móvil las imágenes se convierten en una cuadrícula táctil de dos columnas, el detalle queda inmediatamente debajo y el timeline conserva su scroll local.
 
 ## Tipografía, color y tokens
 
-Los tokens completos están en `docs/04-DESIGN-SYSTEM.md` y `src/styles.css`. No se usa Inter, Geist, Roboto ni `system-ui`.
+Los tokens completos están en `docs/04-DESIGN-SYSTEM.md` y `src/styles.css`: fondo blanco real, tinta carbón, superficies gris muy claro, lima para selección/avance, azul para soporte y naranja para decisiones de costo. No se usa Inter, Geist, Roboto ni `system-ui`; `Source Serif 4` da jerarquía narrativa y `Source Sans 3` conserva legibilidad en controles.
 
 ## Datos y gráficos
 
@@ -30,7 +30,7 @@ El verbo es `transformar`: cuando la persona elige una acción, la escena revela
 
 ## Estados
 
-Todos los controles tienen hover, active, focus-visible, disabled y selected. `La vida pasa` tiene estado apagado, activo y eventos seleccionables.
+Todos los controles tienen hover, active, focus-visible, disabled y selected. Cada imagen de vivienda expone su selección con borde, marca y texto auxiliar; el panel `Detalle de esta ruta` cambia en el mismo documento sin abrir una pantalla nueva. `La vida pasa` tiene estado apagado, activo y eventos seleccionables.
 
 ## Anti-patrones
 
@@ -38,4 +38,4 @@ No hay bento grid, gradiente morado/azul, radios grandes, glassmorphism, sidebar
 
 ## Desviación intencional
 
-El concepto generado incluye una marca y algunos métricos visuales; la implementación los reduce a un nombre de trabajo y cuatro valores de dominio (ahorro, ingreso, reserva y patrimonio) para no inventar datos ajenos al MVP.
+La imagen de referencia muestra una escena y selector en una composición muy ancha. El MVP conserva esa jerarquía, pero mantiene la escena 2.5D SVG existente para que sus capas sigan siendo interactivas y trazables; las nuevas imágenes de selector son assets locales livianos, sin texto incrustado, para que cada tarjeta tenga `alt` y pueda cambiarse desde Studio. Se evita una navegación profunda y se mantiene el detalle en línea porque así lo pide la experiencia y la especificación adjunta.

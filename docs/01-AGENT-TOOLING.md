@@ -10,6 +10,8 @@
 | `sites:sites-hosting` | no ejecutada: publicar no fue solicitado y requeriría una acción externa adicional | — | sin despliegue | no aplicada |
 | `e2e-testing` | estructura de smoke tests Playwright y rutas críticas | 1 | `tests/e2e/smoke.spec.ts`, `playwright.config.ts` | requerida |
 | `verification-loop` | build, tipos, lint, tests y revisión de diff | 1 | reporte final de verificación | requerida |
+| `frontend-testing-debugging` | revisar el render local, interacción, consola, overflow y breakpoints | 2 | verificación CUA en portal | requerida |
+| `build-web-data-visualization` | preservar timeline, lectura directa y detalle contextual del simulador | 2 | workbench de decisiones + timeline | requerida |
 
 ## Capacidades deliberadamente no usadas
 

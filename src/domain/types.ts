@@ -26,6 +26,9 @@ export interface HousingPathConfig {
   label: string
   description: string
   icon: 'family' | 'renting' | 'land' | 'none'
+  image?: string
+  imageAlt?: string
+  detail?: string
   origin: DataOrigin
 }
 

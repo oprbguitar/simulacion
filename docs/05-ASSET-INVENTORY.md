@@ -16,4 +16,15 @@
 
 ## Assets de producto
 
-La escena actual se implementa como SVG code-native en `src/components/HouseScene.tsx` para que estado, etiquetas y accesibilidad sean editables. No se introducen imágenes raster de producción en Fase 0/1. En Fase 3 se podrá añadir un asset 2.5D separado, con prompt y licencia registrados aquí.
+La escena actual se implementa como SVG code-native en `src/components/HouseScene.tsx` para que estado, etiquetas y accesibilidad sean editables. El selector visual usa seis PNG locales generados con Image Gen y sin texto incrustado:
+
+| Asset | Uso | Alt / estado | Ubicación |
+| --- | --- | --- | --- |
+| `path-family.png` | punto de partida familiar y acción de continuidad | familia en una vivienda | `public/assets/` |
+| `path-renting.png` | punto de partida alquilando y acción de alquiler | edificio de departamentos | `public/assets/` |
+| `path-land.png` | punto de partida terreno y acción de compra | terreno delimitado | `public/assets/` |
+| `path-none.png` | punto de partida sin propiedad | futura vivienda por elegir | `public/assets/` |
+| `action-save.png` | acción de ahorro | frasco con monedas y brote | `public/assets/` |
+| `action-build.png` | acción de construcción | muros sobre losa de cimentación | `public/assets/` |
+
+El contenido textual permanece en React para lectura asistida, selección por teclado y edición futura desde Studio. En Fase 3 se podrá añadir un asset 2.5D separado, con prompt y licencia registrados aquí.

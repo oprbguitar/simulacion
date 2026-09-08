@@ -30,4 +30,8 @@ Bloqueado: escena central, HUD superior compacto, pregunta habitacional, accione
 
 Flexible: copy exacto de la marca de trabajo, densidad de hitos, ilustración SVG concreta, proporciones menores y número de etapas visibles.
 
+## Iteración solicitada por la persona usuaria
+
+La referencia adjunta `codex-clipboard-70dc1198-a4a6-4bc6-890e-00edec39f2e9.png` se tomó como evidencia de interacción, no como instrucción de contenido: el patrón aprobado es un selector de imágenes de vivienda, una escena protagonista y detalle dentro de la misma plataforma. La captura del render anterior mostraba el problema a corregir: una pregunta en filas de texto, demasiado espacio vertical y la barra de capas superpuesta al contenido. La implementación 0.2 conserva la escena y el timeline, pero cambia el rail a un workbench visual y coloca las capas en flujo normal.
+
 La UI, números, controles, fuentes, estados de datos y etiquetas son code-native. La imagen generada queda como referencia de diseño, no como captura usada en producción.

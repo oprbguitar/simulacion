@@ -60,7 +60,7 @@ export function App() {
         <a href="/_studio" className="studio-link"><Icon name="settings" size={16} /> Editar supuestos</a>
       </header>
       <Hud result={result} onUndo={undo} onRedo={redo} canUndo={past.length > 0} canRedo={future.length > 0} />
-      <section className="intro-band"><div className="intro-copy"><span className="eyebrow">Una ruta posible</span><h1>Tu siguiente paso<br /><em>se puede explorar.</em></h1><p>Elige dónde estás, prueba una decisión y observa cómo cambia tu hogar, tu dinero y tu tiempo.</p></div><div className="intro-note"><Icon name="info" size={18} /><span>Los montos son referenciales del prototipo. No son una predicción ni una cotización.</span></div></section>
+      <section className="intro-band"><div className="intro-copy"><h1>Tu siguiente paso <em>se puede explorar.</em></h1><p>Elige una imagen, prueba una decisión y observa cómo cambian tu hogar, tu dinero y tu tiempo.</p></div><div className="intro-note"><Icon name="info" size={18} /><span>Los montos son referenciales del prototipo. No son una predicción ni una cotización.</span></div></section>
       <section className="play-band">
         <div className="play-grid"><HouseScene result={result} onLayerChange={handleLayer} /><ChoiceRail result={result} config={config} onPathChange={handlePathChange} onAction={handleAction} /></div>
       </section>
