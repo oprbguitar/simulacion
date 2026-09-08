@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0] — 2026-09-08
+
+### Changed
+
+- reconstruida la interfaz como un simulador de una sola pantalla y sin scroll de documento;
+- incorporada una escena ilustrada de casa peruana en corte, con etiquetas y capas HTML interactivas;
+- condensadas situación, decisiones, resiliencia, imprevistos y línea de tiempo dentro del primer viewport;
+- añadidos layouts específicos para 360, 768, 1280 y 1600 px y una prueba E2E de ajuste exacto al viewport.
+
 ## [0.2.0] — 2026-09-08
 
 ### Changed

@@ -1,41 +1,58 @@
-# Diseño — Horizonte
+# Diseño — Horizonte one-page
 
-## Intención
+## Modo e intención
 
-Superficie `experience` con una capa `operate`: una persona explora decisiones habitacionales y ve sus consecuencias sin sentirse frente a un formulario financiero.
+Superficie `operate` con narrativa visual. La tarea principal es elegir una situación habitacional, probar una decisión y leer su efecto económico y temporal sin abandonar la pantalla ni desplazarse verticalmente.
 
-## Dirección
+## Dirección visual
 
-Rediseño `experience` con una ruta visual de selección y detalle: la escena 2.5D ocupa el ancho útil y debajo aparece un conjunto comparable de imágenes de vivienda. El selector visual para esta iteración asignó `Source Serif 4` + `Source Sans 3` + `Source Code Pro`, paleta carbón + lima + azul de apoyo, arquetipo de portada tipográfica con índice, geometría recta y motion seco de 120–160 ms. La referencia entregada por la persona usuaria fija además tres decisiones: imágenes grandes antes del texto, estado seleccionado inequívoco y detalle contextual dentro de la misma superficie.
+`Workspace estratificado`: cabecera de indicadores reales, escena ilustrada dominante, dos bandas de decisión y línea de tiempo inferior. La referencia de usuario fija la composición horizontal, el uso de imágenes y el carácter editorial peruano. El selector Pierre aporta densidad alta, tipografía Archivo + Public Sans, paleta arena + índigo profundo, geometría de 4–6 px y movimiento breve.
 
-## Usuarios y tarea
+Se consideraron tres estructuras: rail lateral + canvas, canvas con inspector y workspace estratificado. Se elige la tercera porque mantiene simultáneamente escena, decisiones, resiliencia y tiempo, y puede comprimirse de forma controlada en una sola altura.
 
-Personas en Perú que quieren comparar vivir con familia, alquilar, comprar terreno o iniciar una construcción progresiva. Tarea principal: seleccionar el punto de partida, probar una decisión y entender el cambio.
+## Usuarios y tareas
 
-## Layout y componentes
+Personas en Perú que quieren explorar decisiones de vivienda y construcción progresiva. Deben poder: cambiar su punto de partida, simular ahorro/terreno/alquiler/construcción, entender el estado de la escena, activar eventos de estrés, recorrer hitos y deshacer o rehacer.
 
-`AppShell` contiene `Hud`, `HouseScene`, `ChoiceRail`, `Timeline`, `InsightStrip` y `StressTester`. La escena es el foco visual de ancho completo; `ChoiceRail` deja de ser un listado lateral y se convierte en un workbench: selector de imágenes de punto de partida, panel de detalle persistente y selector de acciones con imágenes. En móvil las imágenes se convierten en una cuadrícula táctil de dos columnas, el detalle queda inmediatamente debajo y el timeline conserva su scroll local.
+## Tokens
 
-## Tipografía, color y tokens
+- Color: tinta `#1B1B2F`, tinta suave `#56566B`, blanco `#FFFFFF`, arena `#F8F5EF`, línea `#D7D2C8`, índigo `#3B5BDB`, tierra `#B5651D`, verde `#247A3D`, ámbar `#E78319`, peligro `#B83A2F`.
+- Tipografía: Archivo para marca, títulos y controles; Public Sans para contenido; JetBrains Mono para datos cortos.
+- Espacio: escala 4, 8, 12, 16, 24 y 32 px; el layout usa proporciones de grid y `clamp()` para adaptarse a la altura.
+- Forma: radio 4 o 6 px; bordes de 1 px; sombra únicamente sobre controles flotantes.
+- Motion: 140–220 ms para selección y cambio de escena; escalonado inicial de 40 ms por opción; sin movimiento ambiental.
 
-Los tokens completos están en `docs/04-DESIGN-SYSTEM.md` y `src/styles.css`: fondo blanco real, tinta carbón, superficies gris muy claro, lima para selección/avance, azul para soporte y naranja para decisiones de costo. No se usa Inter, Geist, Roboto ni `system-ui`; `Source Serif 4` da jerarquía narrativa y `Source Sans 3` conserva legibilidad en controles.
+## Contenedor y rejilla
 
-## Datos y gráficos
+`html`, `body`, `#root` y `.sim-shell` ocupan `100dvh`; la página usa `overflow: hidden`. En escritorio: header, escena, workbench y timeline. El workbench reparte decisiones y panel de resiliencia. En móvil: header compacto, escena, selectores de imagen, acciones, resiliencia y timeline; el texto secundario se reduce, nunca las funciones.
 
-La visualización principal es una escena 2.5D y un timeline; los valores financieros se muestran con barras etiquetadas, no con un chart decorativo. Futuras comparaciones pueden usar ECharts solo si una serie temporal o composición aporta más que el timeline.
+## Componentes
 
-## Motion
+- `HorizonHeader`: marca, periodo, ahorro, reserva, patrimonio, historial y Studio.
+- `LifeScene`: ilustración raster de casa peruana en corte, estado y capas clicables.
+- `DecisionDeck`: cuatro selectores visuales y acciones contextuales.
+- `ResiliencePanel`: indicador derivado de meses de reserva, señales reales y eventos de estrés.
+- `LifeTimeline`: hitos navegables con estado actual, completado, planificado o en riesgo.
 
-El verbo es `transformar`: cuando la persona elige una acción, la escena revela una nueva capa y el timeline avanza. El fallback reducido elimina transformaciones y conserva estado, labels y color.
+## Estrategia de imágenes e iconos
 
-## Estados
+La escena principal es una ilustración raster generada para el proyecto, sin texto incrustado; etiquetas, estados y controles permanecen en HTML. Los selectores usan assets locales con `alt`. Los iconos son SVG de trazo uniforme y nunca sustituyen una etiqueta crítica.
 
-Todos los controles tienen hover, active, focus-visible, disabled y selected. Cada imagen de vivienda expone su selección con borde, marca y texto auxiliar; el panel `Detalle de esta ruta` cambia en el mismo documento sin abrir una pantalla nueva. `La vida pasa` tiene estado apagado, activo y eventos seleccionables.
+## Estados y accesibilidad
+
+Todos los botones definen default, hover, active, focus-visible, disabled y selected. La selección combina borde, marca y `aria-pressed`. Existe un solo `h1`; header, main, sections, aside y footer/timeline tienen semántica. Objetivos táctiles de 44 px en móvil, texto legible y `prefers-reduced-motion`.
+
+## Responsive
+
+- 1600/1280: composición horizontal completa.
+- 768: escena más baja, preguntas y opciones compactas, resiliencia lateral.
+- 360: cabecera de dos bandas, escena recortada, cuatro selectores en fila, dos acciones y timeline comprimido. Sin scroll de documento.
+- Alturas reducidas: se oculta microcopy secundaria antes de reducir objetivos táctiles o eliminar funciones.
 
 ## Anti-patrones
 
-No hay bento grid, gradiente morado/azul, radios grandes, glassmorphism, sidebar extensa, métricas inventadas ni controles esenciales dentro de una imagen.
+Sin hero de marketing, bento grid, tarjetas anidadas, degradado morado-azul, glassmorphism, radios gigantes, métricas inventadas, espacios muertos ni controles incrustados dentro de la imagen.
 
 ## Desviación intencional
 
-La imagen de referencia muestra una escena y selector en una composición muy ancha. El MVP conserva esa jerarquía, pero mantiene la escena 2.5D SVG existente para que sus capas sigan siendo interactivas y trazables; las nuevas imágenes de selector son assets locales livianos, sin texto incrustado, para que cada tarjeta tenga `alt` y pueda cambiarse desde Studio. Se evita una navegación profunda y se mantiene el detalle en línea porque así lo pide la experiencia y la especificación adjunta.
+El arquetipo automático `rail lateral + workspace` se reemplaza por un workspace estratificado: un rail restaría ancho a la escena y rompería la composición explícitamente solicitada. Se mantienen las demás restricciones del selector. La referencia muestra edad, puntos y ubicación; se omiten porque el simulador no dispone de esos datos. Se muestran únicamente periodo, ahorro, reserva y patrimonio calculados.

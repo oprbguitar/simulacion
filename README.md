@@ -1,26 +1,26 @@
 # Horizonte — simulador de vida y vivienda
 
-Horizonte es un prototipo local, anónimo y en español de Perú para explorar decisiones de vivienda, ahorro y construcción progresiva. La experiencia se comporta como una ruta jugable: eliges dónde estás, pruebas un camino y ves cambiar la escena, el dinero y el timeline.
+Horizonte es un prototipo local, anónimo y en español de Perú para explorar decisiones de vivienda, ahorro y construcción progresiva. Toda la experiencia principal cabe en una sola pantalla: eliges dónde estás, pruebas un camino y ves cambiar la escena, el dinero y el tiempo sin desplazamiento vertical.
 
 > Los resultados son simulaciones educativas con supuestos editables. No son predicciones, asesoría financiera, legal, médica ni estructural.
 
 ## Qué funciona en este corte
 
-- pantalla única con la pregunta `¿Dónde vives actualmente?`;
+- pantalla operativa one-page, adaptada a la altura del dispositivo y sin scroll de documento;
 - selector visual de cuatro caminos: familia, alquiler, terreno y sin propiedad;
-- detalle de la ruta y del último paso dentro de la misma superficie, sin navegación profunda;
+- escena ilustrada de una casa peruana en corte, con terreno, cimientos y hogar futuro;
 - acciones deterministas de ahorro, terreno, alquiler y construcción inicial;
-- HUD de ahorro, ingreso, reserva, patrimonio y origen de datos;
-- escena SVG 2.5D de casa/terreno con capas seleccionables y barra de capas sin superposición;
-- timeline mensual con hitos clicables y detalle del periodo;
-- tres reglas explicables de `¿Has pensado en esto?`;
-- modo `La vida pasa` con desempleo de 3 meses y gasto médico inesperado;
+- cabecera compacta con periodo, ahorro, reserva y patrimonio calculados;
+- etiquetas de escena seleccionables y libres de superposición;
+- timeline compacto con hitos clicables;
+- panel de resiliencia derivado de la reserva y señales del escenario;
+- imprevistos de desempleo de 3 meses y gasto médico inesperado;
 - undo/redo para cambiar de camino;
 - `/_studio` local para editar supuestos, insight, timeline y ordenar etapas;
 - import/export JSON validado;
 - pruebas unitarias y smoke E2E.
 
-Las imágenes de los selectores viven en `public/assets/`. Son ilustraciones locales sin texto incrustado: el contenido visible sigue siendo HTML accesible y el Studio conserva la posibilidad de editar/importar el contrato sin depender de un servicio externo.
+Las imágenes de la escena y los selectores viven en `public/assets/`. Son ilustraciones locales sin texto incrustado: las etiquetas y controles siguen siendo HTML accesible y el Studio conserva la posibilidad de editar/importar el contrato sin depender de un servicio externo.
 
 ## Inicio local
 
@@ -50,7 +50,7 @@ flowchart LR
   User[Persona] --> UI[React + Vite]
   UI --> Engine[Motor puro TypeScript]
   Engine --> State[Estado serializable]
-  State --> Scene[SVG 2.5D]
+  State --> Scene[Escena ilustrada + capas HTML]
   State --> Timeline[Timeline]
   State --> Insight[Reglas explicables]
   Studio[/_studio] --> Config[ContentConfig validada]

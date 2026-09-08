@@ -16,7 +16,7 @@
 
 ## Assets de producto
 
-La escena actual se implementa como SVG code-native en `src/components/HouseScene.tsx` para que estado, etiquetas y accesibilidad sean editables. El selector visual usa seis PNG locales generados con Image Gen y sin texto incrustado:
+La escena actual combina una ilustración raster local con etiquetas y capas code-native en `src/components/LifeScene.tsx`. El selector visual usa seis PNG locales generados con Image Gen y sin texto incrustado:
 
 | Asset | Uso | Alt / estado | Ubicación |
 | --- | --- | --- | --- |
@@ -26,5 +26,6 @@ La escena actual se implementa como SVG code-native en `src/components/HouseScen
 | `path-none.png` | punto de partida sin propiedad | futura vivienda por elegir | `public/assets/` |
 | `action-save.png` | acción de ahorro | frasco con monedas y brote | `public/assets/` |
 | `action-build.png` | acción de construcción | muros sobre losa de cimentación | `public/assets/` |
+| `horizonte-life-scene-v1.png` | escena principal one-page | casa familiar peruana en corte, terreno, cimientos y hogar futuro | `public/assets/` |
 
-El contenido textual permanece en React para lectura asistida, selección por teclado y edición futura desde Studio. En Fase 3 se podrá añadir un asset 2.5D separado, con prompt y licencia registrados aquí.
+El contenido textual permanece en React para lectura asistida, selección por teclado y edición futura desde Studio. La escena principal fue generada con la herramienta Image Gen integrada a partir de la composición de referencia entregada por el usuario; la referencia se usó solo como guía visual y no se incrustó en el producto.
