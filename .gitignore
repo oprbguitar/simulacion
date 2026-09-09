@@ -4,3 +4,8 @@ coverage/
 playwright-report/
 test-results/
 artifacts/
+.claude/
+
+# Ilustraciones fuente en PNG (12 MB). Se publican como WebP desde
+# scripts/optimize-assets.mjs; los originales siguen en el historial git.
+assets-src/

@@ -36,6 +36,13 @@ function pathStage(path: HousingPathId): ScenarioState['sceneStage'] {
   return 'family'
 }
 
+export function layerForStage(stage: ScenarioState['sceneStage']): ScenarioState['selectedLayer'] {
+  if (stage === 'land') return 'site'
+  if (stage === 'foundation' || stage === 'structure') return 'structure'
+  if (stage === 'home') return 'systems'
+  return 'finishes'
+}
+
 function defaultRoof(config: ContentConfig): ScenarioState['roofOption'] {
   return config.roofOptions.at(1)?.id ?? 'mixer'
 }
@@ -57,10 +64,11 @@ export function createInitialScenario(config: ContentConfig): ScenarioState {
     sceneStage: 'family',
     constructionStageIndex: 0,
     activeTimelineId: 'today',
-    selectedLayer: 'structure',
+    selectedLayer: 'finishes',
     stressEvents: [],
     roofOption: defaultRoof(config),
     structuralPlanConfirmed: false,
+    reserveProtected: false,
   }
 }
 
@@ -127,6 +135,7 @@ export function selectHousingPath(state: ScenarioState, path: HousingPathId): Sc
     selectedAction: null,
     actionHistory: [],
     sceneStage: pathStage(path),
+    selectedLayer: layerForStage(pathStage(path)),
     currentMonth: 0,
     monthlyHousingCost: 0,
     projectMonthlyCost: 0,
@@ -151,6 +160,7 @@ export function simulateAction(state: ScenarioState, action: ActionId, config: C
       ...nextBase,
       housingPath: state.housingPath ?? 'family',
       sceneStage: 'family',
+      selectedLayer: layerForStage('family'),
       currentMonth: state.currentMonth + 6,
       liquidSavings: state.liquidSavings + assumptions.monthlySavingBoost * 6,
       monthlyHousingCost: assumptions.familyHousingCost,
@@ -163,6 +173,7 @@ export function simulateAction(state: ScenarioState, action: ActionId, config: C
       ...nextBase,
       housingPath: state.housingPath ?? 'family',
       sceneStage: 'land',
+      selectedLayer: layerForStage('land'),
       currentMonth: Math.max(6, state.currentMonth + 6),
       liquidSavings: Math.max(0, state.liquidSavings - assumptions.landPurchaseCost),
       assetValue: state.assetValue + assumptions.landAssetValue,
@@ -177,6 +188,7 @@ export function simulateAction(state: ScenarioState, action: ActionId, config: C
       ...nextBase,
       housingPath: state.housingPath ?? 'land',
       sceneStage: 'structure',
+      selectedLayer: layerForStage('structure'),
       currentMonth: state.currentMonth + 12,
       liquidSavings: Math.max(0, state.liquidSavings - assumptions.constructionInitialPayment),
       assetValue: state.assetValue + assumptions.constructionAssetValue,
@@ -186,15 +198,70 @@ export function simulateAction(state: ScenarioState, action: ActionId, config: C
       activeTimelineId: 'structure',
     }
   }
+  if (action === 'advance-time') {
+    const flow = calculateMonthlyCashflow({
+      income: state.monthlyIncome,
+      essential: state.essentialMonthlySpend,
+      housing: state.monthlyHousingCost,
+      debt: state.debtMonthly,
+      project: state.projectMonthlyCost,
+      events: 0,
+    })
+    return {
+      ...nextBase,
+      selectedAction: state.selectedAction,
+      actionHistory: state.actionHistory,
+      currentMonth: state.currentMonth + 6,
+      liquidSavings: Math.max(0, state.liquidSavings + flow * 6),
+      activeTimelineId: state.activeTimelineId,
+    }
+  }
+  if (action === 'protect-reserve') {
+    const flow = calculateMonthlyCashflow({
+      income: state.monthlyIncome,
+      essential: state.essentialMonthlySpend,
+      housing: state.monthlyHousingCost,
+      debt: state.debtMonthly,
+      project: 0,
+      events: 0,
+    })
+    return {
+      ...nextBase,
+      selectedAction: state.selectedAction,
+      actionHistory: [...state.actionHistory, action],
+      currentMonth: state.currentMonth + 6,
+      liquidSavings: Math.max(0, state.liquidSavings + Math.max(0, flow) * 6),
+      projectMonthlyCost: 0,
+      reserveProtected: true,
+      activeTimelineId: 'save',
+    }
+  }
   return {
     ...nextBase,
     housingPath: state.housingPath ?? 'none',
     sceneStage: 'rental',
+    selectedLayer: layerForStage('rental'),
     currentMonth: state.currentMonth + 1,
     monthlyHousingCost: assumptions.rentMonthly,
     projectMonthlyCost: 0,
     activeTimelineId: 'save',
   }
+}
+
+export function setRoofOption(state: ScenarioState, id: ScenarioState['roofOption'], config: ContentConfig): ScenarioState {
+  const previous = config.roofOptions.find((item) => item.id === state.roofOption)?.costFactor ?? 1
+  const next = config.roofOptions.find((item) => item.id === id)?.costFactor ?? 1
+  const delta = Math.round(config.assumptions.constructionInitialPayment * (next - previous))
+  return {
+    ...state,
+    roofOption: id,
+    liquidSavings: Math.max(0, state.liquidSavings - delta),
+    projectCost: Math.max(0, state.projectCost + delta),
+  }
+}
+
+export function confirmStructuralPlan(state: ScenarioState): ScenarioState {
+  return { ...state, structuralPlanConfirmed: true }
 }
 
 export function toggleStressEvent(state: ScenarioState, id: StressEventId, config: ContentConfig): ScenarioState {
@@ -236,6 +303,17 @@ function sceneLabel(state: ScenarioState): string {
   return 'Casa familiar'
 }
 
+function contextLine(state: ScenarioState, reserveMonths: number): string {
+  const stage = state.sceneStage === 'rental'
+    ? 'Vives en alquiler'
+    : state.sceneStage === 'land'
+      ? 'Ya tienes el terreno en la simulación'
+      : state.sceneStage === 'structure'
+        ? 'La obra del primer piso está en marcha'
+        : 'Vives con apoyo familiar'
+  return `${stage} · reserva de ${reserveMonths.toFixed(1)} meses`
+}
+
 function nextPrompt(state: ScenarioState): string {
   if (!state.housingPath) return 'Elige tu punto de partida para comenzar.'
   if (state.sceneStage === 'land') return 'El terreno ya está en la ruta. ¿Quieres comenzar el primer piso?'
@@ -262,7 +340,7 @@ export function simulateScenario(state: ScenarioState, config: ContentConfig): S
     return event
   })
   const insights = evaluateInsights(state, config)
-  const activeInsight = insights.find((item) => item.active) ?? insights.at(0) ?? null
+  const activeInsight = insights.find((item) => item.active) ?? null
   const baseCost = Math.max(state.projectCost, config.assumptions.constructionInitialPayment)
   return {
     state: { ...state },
@@ -275,6 +353,7 @@ export function simulateScenario(state: ScenarioState, config: ContentConfig): S
     activeInsight,
     sceneLabel: sceneLabel(state),
     nextPrompt: nextPrompt(state),
+    contextLine: contextLine(state, reserveMonths),
     costRange: {
       low: Math.round(baseCost * config.assumptions.costRangeLowFactor),
       expected: Math.round(baseCost),

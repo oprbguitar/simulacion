@@ -9,6 +9,11 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // Scripts de mantenimiento: corren en Node, no en el navegador.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node } },
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },

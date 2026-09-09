@@ -1,7 +1,7 @@
 export type DataOrigin = 'REAL' | 'SEEDED_REFERENCE' | 'MOCK'
 
 export type HousingPathId = 'family' | 'renting' | 'land' | 'none'
-export type ActionId = 'save-more' | 'buy-land' | 'rent-home' | 'build-first-floor' | 'keep-family-home'
+export type ActionId = 'save-more' | 'buy-land' | 'rent-home' | 'build-first-floor' | 'keep-family-home' | 'protect-reserve' | 'advance-time'
 export type SceneStage = 'family' | 'rental' | 'land' | 'foundation' | 'structure' | 'home'
 export type LayerId = 'site' | 'structure' | 'systems' | 'finishes'
 export type StressEventId = 'unemployment-3' | 'medical-shock'
@@ -137,11 +137,14 @@ export interface ScenarioState {
   stressEvents: StressEventId[]
   roofOption: RoofOptionConfig['id']
   structuralPlanConfirmed: boolean
+  reserveProtected: boolean
 }
 
 export interface InsightMessage extends InsightConfig {
   active: boolean
 }
+
+export type SheetId = 'comparison' | 'timeline' | 'stress' | 'insight' | 'roof' | null
 
 export interface ScenarioResult {
   state: ScenarioState
@@ -154,6 +157,7 @@ export interface ScenarioResult {
   activeInsight: InsightMessage | null
   sceneLabel: string
   nextPrompt: string
+  contextLine: string
   costRange: {
     low: number
     expected: number

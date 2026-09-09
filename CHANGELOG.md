@@ -1,5 +1,53 @@
 # Changelog
 
+## [0.6.0] — 2026-09-09
+
+### Added
+
+- **capa de movimiento** sobre `motion/react`, con tokens propios en `src/motion/tokens.ts` y primitivas en `src/motion/primitives.tsx`: contadores con resorte, fichas de variación, barrido de sugerencia, haz de borde, onda de cambio de etapa y parallax de puntero;
+- indicadores del encabezado que muestran cuánto cambió el ahorro y el patrimonio con la última decisión, calculado desde el historial del dominio y no desde un render previo;
+- foco de escena, opciones, hilo de la línea de tiempo y panel deslizante animados con resorte, con entrada escalonada por banda;
+- `scripts/optimize-assets.mjs`: convierte las ilustraciones a WebP;
+- `vercel.json`, favicon SVG, metadatos Open Graph y tarjeta social JPEG para la publicación en `amauta.online`.
+
+### Changed
+
+- las ilustraciones pasan de PNG a WebP: **12,5 MB → 395 kB (97 % menos)**; el `dist` completo baja de ~13 MB a ~1 MB;
+- las animaciones de entrada dejan de hacerse con `@keyframes` y `--item-index` y pasan a variantes escalonadas, para que no compitan con el movimiento de estado.
+
+### Fixed
+
+- el rótulo «¿Has pensado en esto?» quedaba **invisible** tras el barrido: el degradado usaba `currentColor`, que resolvía al `color: transparent` de su propia regla. El color base va ahora explícito en `--sweep-base` y el degradado cubre siempre la caja completa.
+
+### Accessibility
+
+- `MotionConfig reducedMotion="user"` más un bloque `prefers-reduced-motion` para las animaciones CSS;
+- `AnimatedNumber` pinta el valor final en el primer render: ninguna cifra en tránsito llega a un lector de pantalla;
+- el parallax se desactiva en punteros gruesos, donde no hay hover que lo justifique.
+
+## [0.5.0] — 2026-09-08
+
+### Added
+
+- mecánica «¿Has pensado en esto?» visible en pantalla, con el mensaje contextual y las acciones `Continuar`, `Guardar reserva` y `Comparar alternativa`;
+- panel deslizante con comparador de caminos, detalle de hito, rango económico/probable/conservador y reglas explicables (`ver por qué aparece esta sugerencia`);
+- interruptor «Modo La vida pasa» junto a la línea de tiempo, con la advertencia de que son simulaciones y no predicciones;
+- decisión de vaciado del techo con las cuatro modalidades del RNE-alineadas del prototipo (obra, mixer, mixer + bomba y servicio integral) y su efecto en costo y liquidez;
+- foco de escena que se desplaza según la etapa (casa familiar, terreno, cimientos, hogar futuro) para que cada decisión produzca un cambio visual;
+- insignias de origen `REAL / SEEDED_REFERENCE / MOCK` en cada cifra externa del panel de detalle;
+- acciones deterministas `advance-time` y `protect-reserve` en el motor.
+
+### Fixed
+
+- **tipografía comprimida**: la superficie ya no reduce la letra para caber. Ningún texto baja de 12 px y el ajuste se hace recortando microcopy secundaria o desplazando dentro de un panel, nunca achicando la fuente. Cubierto por una prueba E2E.
+- eliminadas la superposición de bandas y el recorte de textos en 1280×720 y en móvil;
+- en móvil se acepta un scroll corto y controlado en lugar de solapar contenido a 664 px de alto útil;
+- `activeInsight` deja de mostrar una regla inactiva como si estuviera activa.
+
+### Removed
+
+- `src/styles.css` y siete componentes huérfanos que ya no participaban del render (`ChoiceRail`, `ComparisonStrip`, `InsightStrip`, `StressTester`, `HouseScene`, `Timeline`, `Hud`, `OriginBadge`).
+
 ## [0.4.0] — 2026-09-08
 
 ### Changed

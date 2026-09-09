@@ -4,6 +4,8 @@ export type IconName =
   | 'arrow-right'
   | 'calendar'
   | 'check'
+  | 'close'
+  | 'compare'
   | 'chevron-down'
   | 'chevron-left'
   | 'chevron-right'
@@ -52,6 +54,12 @@ export function Icon({ name, size = 20, ...props }: IconProps) {
       break
     case 'check':
       content = <path d="m5 12 4 4L19 6" />
+      break
+    case 'close':
+      content = <path d="M6 6l12 12M18 6 6 18" />
+      break
+    case 'compare':
+      content = <><path d="M12 3v18" /><path d="M4 8h5M4 8l2.5 5H1.5L4 8zM15 6h5M17.5 6 20 11h-5l2.5-5z" /></>
       break
     case 'chevron-down':
       content = <path d="m6 9 6 6 6-6" />

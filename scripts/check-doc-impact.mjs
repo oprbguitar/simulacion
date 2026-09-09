@@ -1,4 +1,3 @@
-/* global console, process */
 import { execFileSync } from 'node:child_process'
 
 const highImpactPrefixes = ['src/', 'data/', 'supabase/', 'functions/', 'workers/', 'scripts/']
