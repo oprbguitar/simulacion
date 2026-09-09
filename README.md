@@ -101,7 +101,7 @@ El núcleo jugable de Fase 0 y el inicio funcional de Fase 1 están implementado
 
 ## Publicación
 
-El sitio se despliega como estático en Vercel y se sirve en `amauta.online`. Los pasos, la configuración de `vercel.json` y los registros DNS están en [`docs/13-DEPLOYMENT.md`](docs/13-DEPLOYMENT.md).
+El sitio se despliega como estático en Vercel y se sirve en `simulacion.amauta.online`. Los pasos, la configuración de `vercel.json` y los registros DNS están en [`docs/13-DEPLOYMENT.md`](docs/13-DEPLOYMENT.md).
 
 ## Licencia
 

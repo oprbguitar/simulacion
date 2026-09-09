@@ -2,7 +2,7 @@
 
 ## Estado
 
-El sitio se publica como estático en Vercel desde el repositorio `oprbguitar/simulacion`. El dominio de destino es `amauta.online`.
+El sitio se publica como estático en Vercel desde el repositorio `oprbguitar/simulacion`. El dominio de destino es `simulacion.amauta.online`.
 
 ## Qué se publica
 
@@ -24,14 +24,13 @@ node scripts/optimize-assets.mjs
 
 ## Dominio
 
-Vercel entrega primero una URL `*.vercel.app`. Para servir `amauta.online` hay que asignar el dominio al proyecto en el panel (Project → Settings → Domains) y crear en el DNS del registrador:
+Vercel entrega primero una URL `*.vercel.app`. Para servir `simulacion.amauta.online` hay que asignar el dominio al proyecto en el panel (Project → Settings → Domains) y crear en el DNS del registrador:
 
 | Nombre | Tipo | Valor |
 | --- | --- | --- |
-| `@` | `A` | `76.76.21.21` |
-| `www` | `CNAME` | `cname.vercel-dns.com` |
+| `simulacion` | `CNAME` | `cname.vercel-dns.com` |
 
-Vercel emite el certificado TLS al validar los registros; el sitio queda en `https://amauta.online`. Si el DNS está en Cloudflare, los registros deben quedar en **DNS only** (nube gris), no proxiados.
+Al ser un subdominio basta un `CNAME`; el registro `A` de `76.76.21.21` sólo hace falta si algún día se sirve también el ápice `amauta.online`. Vercel emite el certificado TLS al validar el registro y el sitio queda en `https://simulacion.amauta.online`. Si el DNS está en Cloudflare, el registro debe quedar en **DNS only** (nube gris), no proxiado: con el proxy activo Vercel no puede validar el dominio ni emitir el certificado.
 
 ## Sobre `/_studio`
 
