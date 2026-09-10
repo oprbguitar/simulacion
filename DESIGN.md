@@ -1,6 +1,198 @@
-# Diseño — Horizonte one-page
+# Diseño — Horizonte
+
+Tres superficies con direcciones visuales distintas y deliberadas, sobre el mismo
+motor y el mismo catálogo:
+
+- **A. La Ruta** (`/`) — el recorrido jugable. Bandas a sangre, acero + verde
+  eléctrico, Work Sans / Manrope.
+- **B. El expediente** (`/_expediente`) — el documento. Índice fijo, carbon +
+  lima, Archivo / Public Sans.
+- **C. El simulador de una pantalla** (`/_legacy`) — conservado con su dirección
+  original.
+
+No comparten sistema a propósito: una se recorre, otra se consulta y la tercera se
+opera. El detalle completo de A está en [`docs/18-LA-RUTA.md`](docs/18-LA-RUTA.md).
+
+---
+
+# A. La Ruta (`/`)
 
 ## Modo e intención
+
+Superficie `experience`. El público objetivo son adolescentes de 14 a 16 años y
+la tarea no es consultar: es **recorrer y probar**. Se decide con cartas grandes,
+la consecuencia se ve al instante en el marcador y el detalle denso se guarda en
+cajones.
+
+## Dirección visual
+
+**Bandas a sangre contrastadas.** Cada capítulo de la vida es una franja de ancho
+completo con su propio color, su ilustración y una sola decisión. Nada de hero +
+tres tarjetas.
+
+Se consideraron tres estructuras antes de elegir:
+
+1. **Tablero de casillas tipo juego de mesa** (avanzar de casilla en casilla).
+   Descartada: obliga a una progresión lineal y a esconder lo que no toca, y aquí
+   el valor está en poder volver y comparar.
+2. **Asistente a pantalla completa, una decisión por pantalla.** Descartada por lo
+   mismo, y porque en móvil se convierte en un cuestionario.
+3. **Bandas a sangre.** Elegida: cada capítulo se lee de un vistazo, el scroll da
+   la sensación de recorrido, y el color de banda funciona como señalización de en
+   qué parte de la vida estás.
+
+## Tokens
+
+- **Color.** Tinta `#161A1D`, superficie `#F2F4F5`, blanco `#FFFFFF`, línea
+  `#D3D9DC`. Acento verde `#2F9E44` (con `#51CF66` para fondos oscuros),
+  apoyo azul `#1971C2`, alarma `#D63939`, ámbar `#C07A00`.
+- **Colores de capítulo.** Noche `#12181D`, océano `#10314F`, selva
+  `#123524`, tierra `#43210F`, ocre `#3D2F08`. **Son señalización, no
+  adorno**: el acento verde nunca se usa como fondo grande.
+- **Tipografía.** Work Sans 800/900 para títulos y cifras; Manrope para el cuerpo.
+- **Espacio.** 4, 8, 12, 16, 24, 32, 48, 72 y 104 px.
+- **Forma.** Radio 2 px. Bordes de 1 y 2 px. El estado elegido se marca con borde
+  del acento más un filete interno, no con sombra.
+- **Motion.** 220 ms con `cubic-bezier(.2,0,0,1)`, transformaciones de posición
+  para dar continuidad espacial. Contadores de resorte en el marcador. Todo se
+  apaga con `prefers-reduced-motion`.
+
+## Reglas de la superficie
+
+1. Una decisión grande por banda.
+2. Tres cifras visibles por banda; el resto, en el cajón.
+3. La consecuencia de cada decisión aparece escrita, no solo numérica.
+4. Nada del expediente se duplica: los cajones montan sus secciones tal cual.
+5. Piso tipográfico de 12 px, verificado por prueba automatizada.
+
+## Dos trampas que costó encontrar
+
+- **`overflow-x: clip` en el contenedor rompe `position: sticky`.** Un
+  ancestro con overflow recortado se convierte en el contenedor de desplazamiento
+  del elemento pegajoso, así que el marcador se quedaba pegado al tope del
+  documento en vez de al de la ventana.
+- **Las entradas por scroll dejan contenido invisible** cuando el bloque es más
+  alto que la pantalla: la pieza está dentro de la banda visible pero nunca cruza
+  el umbral. Se dispara 200 px antes de asomar.
+
+---
+
+# B. Expediente de vida (`/_expediente`)
+
+## Modo e intención
+
+Superficie `redesign`. La tarea no es operar un panel: es **leer y comprobar**. La
+persona ajusta su punto de partida y luego recorre un documento denso donde cada
+cifra se puede rastrear hasta la entidad que la publica. El éxito no es que la
+pantalla se vea bien, es que alguien pueda hacer clic y verificar el número.
+
+## Dirección visual
+
+**Índice fijo + documento.** Un índice persistente a la izquierda con las nueve
+secciones numeradas y el estado del plan siempre visible; a la derecha, el
+documento. La tipografía es la estructura: números de sección grandes en el acento,
+jerarquía por peso y línea, ningún adorno que no informe.
+
+Se consideraron tres estructuras antes de elegir:
+
+1. **Tablero de pistas paralelas** (una fila por dominio a lo largo de 30 años).
+   Descartada: el contenido no es principalmente temporal, es documental; obligaba
+   a esconder el detalle en tarjetas y el detalle es el producto.
+2. **Asistente por pasos** (una decisión por pantalla). Descartada: impide comparar
+   y volver, que es exactamente lo que se necesita cuando el gasto de un módulo
+   depende del de otro.
+3. **Índice fijo + documento.** Elegida: permite densidad alta sin perder la
+   ubicación, se imprime bien, y el índice funciona como resumen ejecutivo
+   permanente del estado del plan.
+
+## Tokens
+
+- **Color.** Tinta `#191B18`, tinta media `#4A504A`, tinta suave `#767D75`;
+  papel `#F6F7F3`, papel elevado `#FDFDFB`, papel hundido `#ECEFE6`; línea
+  `#D5DACD` y línea fuerte `#A8B09E`; acento lima `#74B816` con su oscuro
+  `#4D7C0C` y su tenue `#EEF7E0`; apoyo azul `#4263EB`; alarma `#C0392B`;
+  ámbar `#A86A00`.
+  **El acento marca cifra, estado y acción. Nunca es fondo decorativo grande.**
+- **Tipografía.** Archivo para marca, títulos y controles; Public Sans para el
+  cuerpo; JetBrains Mono para cifras, códigos de regla y etiquetas de metadato.
+  El monoespaciado nunca se usa para texto corrido.
+- **Espacio.** Escala 4, 8, 12, 16, 24, 32, 48 y 72 px.
+- **Forma.** Radio 4 px, 6 px como máximo. Bordes de 1 px. Los estados se marcan
+  con un filete interno de 3 px del color correspondiente, no con sombra.
+- **Motion.** Seco: 140 ms, `cubic-bezier(.2,0,.2,1)`, solo para estado y foco.
+  Nada ambiental. Se desactiva por completo con `prefers-reduced-motion`.
+
+## Los cinco colores de origen
+
+Cada cifra lleva una insignia que dice de dónde viene, y el color no es decorativo:
+
+| Origen | Color | Lectura |
+| --- | --- | --- |
+| `OFICIAL` | lima | Publicado por el Estado. Es la referencia. |
+| `REGULADO` | azul | Fijado o supervisado por un regulador. |
+| `MERCADO` | ámbar | Precio observado. Cambia rápido: verificar. |
+| `TECNICO` | gris | Constante de ingeniería. Estable. |
+| `ESTIMADO` | alarma | Supuesto del simulador. El dato más débil. |
+
+Que `ESTIMADO` comparta color con la alarma es intencional: es el número que hay
+que mirar con más desconfianza y no debe pasar desapercibido.
+
+## Regla dura de legibilidad
+
+**12 px es el piso absoluto.** Cuando falta espacio se recorta microcopy o se
+permite scroll, nunca se reduce la letra. Hay una prueba de extremo a extremo que
+recorre todos los nodos de texto de la superficie y falla si alguno queda por
+debajo. La primera versión de esta hoja tenía etiquetas de metadato en 10 px; la
+prueba las detectó y todas subieron a 12 px.
+
+## Contenedor y rejilla
+
+`.ex-shell` es una rejilla de dos columnas: índice de 268 px (300 px desde
+1600 px) y documento de hasta 1080 px (1240 px desde 1600 px). El índice es
+`position: sticky` a altura completa con tres filas: marca, navegación scrollable
+y estado del plan.
+
+**Responsive.**
+
+- **≥ 1280 px**: dos columnas, documento a ancho cómodo.
+- **900–1279 px**: dos columnas con menos aire lateral.
+- **< 900 px**: el índice se convierte en una barra superior pegajosa con un botón
+  `Índice` que despliega la navegación y el estado; el documento ocupa todo.
+- **< 640 px**: las fichas de fuente se apilan (el enlace y su fecha dejan de
+  competir por el ancho) y las rejillas de datos pasan a una columna.
+- **< 560 px**: la cabecera de sección apila número y título, y el costo de cada
+  fase de obra baja a su propia línea.
+
+Las tablas anchas viven dentro de `.ex-tabla-envoltura` con `overflow-x: auto`:
+la tabla se desplaza dentro de su caja y la página nunca lo hace.
+
+### Dos trampas de ancho que costó encontrar
+
+- Un `<fieldset>` no baja de la anchura mínima de su contenido, y un `<select>`
+  mide lo que su opción más larga. Sin `min-width: 0` en el fieldset y en los
+  controles, el formulario del punto de partida empujaba todo el documento.
+- La ficha de fuente tiene la fecha de verificación en `white-space: nowrap`. En
+  pantallas estrechas eso forzaba un ancho mínimo mayor que el viewport; por
+  debajo de 640 px la ficha se apila y la fecha vuelve a poder romper línea.
+
+## Estados
+
+Definidos para todo control interactivo: reposo, hover (fondo lima tenue o papel
+hundido), active (fondo línea), `focus-visible` (contorno azul de 2 px con
+desplazamiento de 2 px), seleccionado (filete interno de 3 px + fondo tenue) y
+deshabilitado (opacidad 0.45 + cursor `not-allowed`).
+
+## Impresión
+
+El índice desaparece, el shell pasa a una columna y las fases de obra se despliegan
+todas. El expediente está pensado para poder llevarse impreso a una notaría o a una
+municipalidad.
+
+---
+
+# C. Simulador de una pantalla (`/_legacy`)
+
+## Modo e intención (superficie heredada)
 
 Superficie `operate` con narrativa visual. La tarea principal es elegir una situación habitacional, probar una decisión y leer su efecto económico y temporal sin abandonar la pantalla ni desplazarse verticalmente.
 

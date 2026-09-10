@@ -89,7 +89,7 @@ export function Studio() {
       <header className="sv-header">
         <a href="/" className="sv-brand"><strong>HORIZONTE</strong><span>STUDIO</span></a>
         <div className="sv-status"><i />{status}</div>
-        <div className="sv-history"><button onClick={undo} disabled={!past.length} aria-label="Deshacer cambio"><Icon name="undo" /></button><button onClick={redo} disabled={!future.length} aria-label="Rehacer cambio"><Icon name="redo" /></button><a href="/">Ver simulador <Icon name="arrow-right" /></a></div>
+        <div className="sv-history"><button onClick={undo} disabled={!past.length} aria-label="Deshacer cambio"><Icon name="undo" /></button><button onClick={redo} disabled={!future.length} aria-label="Rehacer cambio"><Icon name="redo" /></button><a href="/_legacy">Ver simulador <Icon name="arrow-right" /></a></div>
       </header>
       <nav className="sv-mobile-tabs" aria-label="Superficie del Studio">
         {(['scenario', 'results', 'data'] as MobileView[]).map((view) => <button key={view} onClick={() => setMobileView(view)} aria-pressed={mobileView === view}>{view === 'scenario' ? 'Escenario' : view === 'results' ? 'Resultados' : 'Datos'}</button>)}

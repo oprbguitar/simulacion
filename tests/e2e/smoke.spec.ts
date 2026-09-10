@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('persona puede elegir un camino, avanzar y deshacerlo', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   await expect(page.getByRole('heading', { name: '¿Dónde vives actualmente?' })).toBeVisible()
   await expect(page.getByRole('img', { name: 'Familia reunida en la sala de una vivienda.' })).toBeVisible()
   await expect(page.getByRole('img', { name: /Casa familiar peruana en corte/ })).toBeVisible()
@@ -15,7 +15,7 @@ test('persona puede elegir un camino, avanzar y deshacerlo', async ({ page }) =>
 })
 
 test('la superficie no desborda en horizontal ni superpone sus bandas', async ({ page }, testInfo) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   const metrics = await page.evaluate(() => {
     const box = (selector: string) => {
       const element = document.querySelector(selector)
@@ -48,7 +48,7 @@ test('la superficie no desborda en horizontal ni superpone sus bandas', async ({
 })
 
 test('ningún texto de la superficie baja de 12 px', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   const tiny = await page.evaluate(() => {
     const found: string[] = []
     document.querySelectorAll('.sim-shell *').forEach((element) => {
@@ -63,7 +63,7 @@ test('ningún texto de la superficie baja de 12 px', async ({ page }) => {
 })
 
 test('el modo «La vida pasa» aplica un imprevisto y lo revierte', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   await page.getByRole('button', { name: /Modo «La vida pasa»/ }).click()
   await expect(page.getByRole('dialog')).toContainText('no son predicciones')
   await page.getByRole('button', { name: /Gasto médico inesperado/ }).click()
@@ -75,7 +75,7 @@ test('el modo «La vida pasa» aplica un imprevisto y lo revierte', async ({ pag
 })
 
 test('el comparador muestra los tres caminos con la misma base', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   await page.getByRole('button', { name: 'Comparar alternativa', exact: true }).click()
   const dialog = page.getByRole('dialog')
   await expect(dialog).toContainText('No hay un ganador universal')
@@ -84,7 +84,7 @@ test('el comparador muestra los tres caminos con la misma base', async ({ page }
 })
 
 test('construir habilita la decisión de vaciado del techo', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/_legacy')
   await page.getByRole('button', { name: /Comprar terreno/ }).click()
   await page.getByRole('button', { name: /Construir primer piso/ }).click()
   await page.getByRole('button', { name: /vaciado del techo/i }).click()

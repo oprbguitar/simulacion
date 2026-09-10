@@ -1,10 +1,64 @@
-# Horizonte — simulador de vida y vivienda
+# Horizonte — La Ruta
 
-Horizonte es un prototipo local, anónimo y en español de Perú para explorar decisiones de vivienda, ahorro y construcción progresiva. Toda la experiencia principal cabe en una sola pantalla: eliges dónde estás, pruebas un camino y ves cambiar la escena, el dinero y el tiempo sin desplazamiento vertical.
+Horizonte recorre el ciclo completo de una vida en el Perú: adquirir dónde vivir, construir por etapas, tener hijos, vacunarlos, educarlos, trabajar, pagar impuestos y aguantar lo que no estaba en el plan. Todo proyectado a 30 años, local y anónimo, en español de Perú.
 
-> Los resultados son simulaciones educativas con supuestos editables. No son predicciones, asesoría financiera, legal, médica ni estructural.
+Hay **dos maneras de entrar a los mismos datos**:
 
-## Qué funciona en este corte
+- **[La Ruta](docs/18-LA-RUTA.md)** (`/`) — el recorrido jugable, pensado para alguien de 14 a 16 años. Ocho bandas a sangre, una decisión grande por banda, ilustraciones, un tablero de vacunas de 29 casillas, naipes de imprevisto que se voltean y un mapa de 30 años que se camina. El detalle denso vive en cajones que se abren cuando lo pides.
+- **[El expediente](docs/17-EXPEDIENTE-DE-VIDA.md)** (`/_expediente`) — el documento completo, con índice fijo, tablas, trámites, requisitos y las 42 fuentes.
+
+Mismo motor, mismo catálogo, dos lecturas.
+
+**La regla del proyecto: ninguna cifra aparece sin decir de dónde salió.** Cada número declara su origen (OFICIAL, REGULADO, MERCADO, TECNICO o ESTIMADO) y enlaza a la entidad donde se verifica, con la fecha en que se comprobó ese enlace. Las 42 direcciones del registro se probaron con una petición real; la que no respondió no entró.
+
+> Simulación educativa. No es una cotización, no dimensiona elementos estructurales y no reemplaza a un profesional colegiado ni a la consulta directa en la entidad correspondiente.
+
+## Las bandas de La Ruta
+
+| # | Banda | Qué se juega |
+| --- | --- | --- |
+| 01 | Tu punto de partida | Tres arranques reconocibles y la región |
+| 02 | ¿Dónde vas a vivir? | Cinco cartas ilustradas: terreno, casa, departamento, alquiler, familia |
+| 03 | Construir de a pocos | La palanca de años que reparte el costo, las diez etapas de obra y las cantidades de material |
+| 04 | ¿Y si tienes hijos? | El tablero de 29 vacunas del MINSA, gratis en el Estado, con su precio privado al costado |
+| 05 | La casa cobra todos los meses | Luz, agua, internet y arbitrios |
+| 06 | ¿De qué vives? | Cinco fichas de régimen con tres barras: red, libertad y techo |
+| 07 | Y entonces la vida se mete | Ocho naipes de imprevisto que se voltean sobre tu ruta |
+| 08 | Tu ruta, año por año | El mapa de 30 casillas con hitos y una ficha que camina |
+
+## Las ocho secciones del expediente
+
+| # | Sección | Qué contiene |
+| --- | --- | --- |
+| 00 | Tu punto de partida | Edad, región, ingreso, régimen, ahorro, gasto esencial, horizonte, hijos |
+| 01 | Adquirir la propiedad | Cinco rutas de acceso, trámites en orden con sus requisitos, Alcabala calculado, capacidad de endeudamiento e interés total del crédito |
+| 02 | Construir | Costo por m², cantidades de material para tu área, dosificaciones de concreto y las diez fases de obra con su metrado, su trámite y su norma |
+| 03 | Traer un hijo al mundo | Preconcepción, gestación, parto, el Esquema Nacional de Inmunizaciones completo, calendario CRED, crianza y los cuatro niveles educativos |
+| 04 | Habitar la casa | Consumos de referencia, boletas de luz y agua, arbitrios y mantenimiento |
+| 05 | De dónde sale el ingreso | Planilla, honorarios, NRUS, RER y RMT: qué descuenta, qué protege y qué expone cada uno |
+| 06 | Lo que el plan no contempla | Ocho imprevistos activables, cada uno con su vía institucional de respuesta |
+| 07 | Los próximos años | Barra por año; al hacer clic, el desglose completo y los hitos de ese año |
+| 08 | De dónde sale cada dato | Las 42 fuentes, ordenadas por entidad |
+
+Documentación completa en [`docs/17-EXPEDIENTE-DE-VIDA.md`](docs/17-EXPEDIENTE-DE-VIDA.md); el registro de fuentes y los datos que caducan, en [`docs/08-DATA-SOURCES.md`](docs/08-DATA-SOURCES.md).
+
+### Qué se hace distinto
+
+- **El metrado y el precio van separados.** Cuánto cemento entra en un m² es una constante de ingeniería; cuánto cuesta hoy una bolsa es un precio que cambia varias veces al año. Publicar solo el producto de ambos esconde cuál de los dos está viejo.
+- **Rangos, no promedios disfrazados de certeza.** Todo monto de mercado se guarda y se muestra como mínimo–típico–máximo.
+- **Diagnósticos con identificador y palanca.** Cada alerta dice su regla (`AHORRO_NEGATIVO`, `CUOTA_SOBRE_TERCIO`…) y qué mover para cambiar el resultado. No hay puntaje oculto.
+- **Los imprevistos no se sortean.** Se activan y el motor los coloca en un año fijo, para poder comparar el mismo escenario con y sin el golpe.
+
+## Rutas
+
+| Ruta | Superficie |
+| --- | --- |
+| `/` | La Ruta — el recorrido jugable |
+| `/_expediente` | El documento completo con las 42 fuentes |
+| `/_legacy` | Simulador de una pantalla anterior, conservado |
+| `/_studio` | Editor de los supuestos del simulador anterior |
+
+## Qué funciona en el simulador anterior (`/_legacy`)
 
 - pantalla operativa one-page en escritorio, con la letra como restricción dura: nada baja de 12 px;
 - selector visual de cuatro caminos: familia, alquiler, terreno y sin propiedad;
@@ -38,7 +92,7 @@ npm install
 npm run dev
 ```
 
-Abre `http://localhost:5173`. Para el editor local visita `http://localhost:5173/_studio`.
+Abre `http://localhost:5173` para La Ruta, `/_expediente` para el documento completo, `/_legacy` para el simulador de una pantalla y `/_studio` para el editor de supuestos.
 
 ## Comandos
 
