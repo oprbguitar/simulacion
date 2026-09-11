@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import { Controles } from '../../expediente/Controles'
+import { Icon } from '../../components/Icon'
 import type { Perfil, Proyeccion } from '../../domain/life/motor'
 import { modoIngreso } from '../../domain/life/catalogo/trabajo'
 import { usePointerParallax } from '../../motion/useParallax'
@@ -45,23 +46,20 @@ const REGIONES: { id: Perfil['region']; titulo: string; bajada: string }[] = [
   { id: 'selva', titulo: 'Selva', bajada: 'La obra más cara del país' },
 ]
 
-export function BandaPartida({
-  proyeccion,
-  onCambio,
+/** Portada: el nombre de quien juega y la puerta de entrada a la ruta. */
+export function Portada({
+  nombre,
+  onNombre,
+  onEmpezar,
 }: {
-  proyeccion: Proyeccion
-  onCambio: (parcial: Partial<Perfil>) => void
+  nombre: string
+  onNombre: (nombre: string) => void
+  onEmpezar: () => void
 }) {
-  const { perfil } = proyeccion
   const parallax = usePointerParallax(14)
-  const modo = modoIngreso(perfil.modoIngreso)
-  const neto = perfil.ingresoMensualBruto - modo.descuentoMensual(perfil.ingresoMensualBruto)
-  const sobra = neto - perfil.gastoEsencialMensual
-  const arranqueActivo = ARRANQUES.find((a) => a.perfil.edadInicial === perfil.edadInicial && a.perfil.ingresoMensualBruto === perfil.ingresoMensualBruto)
 
   return (
-    <>
-      <section
+    <section
         className="rt-portada"
         onPointerMove={parallax.onPointerMove}
         onPointerLeave={parallax.onPointerLeave}
@@ -91,14 +89,51 @@ export function BandaPartida({
             Vas a decidir dónde vivir, si construyes, si tienes hijos, de qué trabajas y qué haces cuando la vida se tuerce. Todo lo que cuesta acá es
             real y puedes comprobarlo: cada cifra trae el enlace de la entidad que la publica.
           </p>
-          <motion.a className="rt-boton-grande" href="#partida" whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} transition={springs.snap}>
-            Empezar la ruta
-          </motion.a>
+          <form
+            className="rt-portada-form"
+            onSubmit={(evento) => {
+              evento.preventDefault()
+              onEmpezar()
+            }}
+          >
+            <label className="rt-nombre">
+              <span>¿Cómo te llamas?</span>
+              <input
+                type="text"
+                value={nombre}
+                onChange={(evento) => onNombre(evento.target.value.slice(0, 40))}
+                placeholder="Escribe tu nombre"
+                autoComplete="given-name"
+                maxLength={40}
+              />
+            </label>
+            <motion.button type="submit" className="rt-boton-grande" whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} transition={springs.snap}>
+              Empezar la ruta
+              <Icon name="arrow-right" size={20} />
+            </motion.button>
+          </form>
+          <p className="rt-portada-pista">Tu nombre solo se guarda en este navegador y aparece en tu expediente descargable.</p>
         </motion.div>
 
         <p className="rt-portada-nota">Simulación educativa. No es una cotización ni reemplaza a un profesional.</p>
       </section>
+  )
+}
 
+export function BandaPartida({
+  proyeccion,
+  onCambio,
+}: {
+  proyeccion: Proyeccion
+  onCambio: (parcial: Partial<Perfil>) => void
+}) {
+  const { perfil } = proyeccion
+  const modo = modoIngreso(perfil.modoIngreso)
+  const neto = perfil.ingresoMensualBruto - modo.descuentoMensual(perfil.ingresoMensualBruto)
+  const sobra = neto - perfil.gastoEsencialMensual
+  const arranqueActivo = ARRANQUES.find((a) => a.perfil.edadInicial === perfil.edadInicial && a.perfil.ingresoMensualBruto === perfil.ingresoMensualBruto)
+
+  return (
       <Banda
         id="partida"
         paso="01"
@@ -162,6 +197,5 @@ export function BandaPartida({
           <Controles perfil={perfil} onCambio={onCambio} />
         </Cajon>
       </Banda>
-    </>
   )
 }

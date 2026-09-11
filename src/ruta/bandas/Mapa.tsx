@@ -39,7 +39,7 @@ export function BandaMapa({ proyeccion }: { proyeccion: Proyeccion }) {
   return (
     <Banda
       id="mapa"
-      paso="07"
+      paso="08"
       tono="arena"
       titulo={`Tu ruta, año por año`}
       gancho="Todo lo que decidiste, puesto en el tiempo. Camina la ruta y mira dónde aprieta."

@@ -36,7 +36,7 @@ export function BandaCartas({
   return (
     <Banda
       id="cartas"
-      paso="06"
+      paso="07"
       tono="noche"
       titulo="Y entonces la vida se mete"
       gancho="Ocho cartas. Voltéalas y mira qué le pasa a tu ruta. No son predicciones sobre ti: son la prueba de cuánto margen te queda."

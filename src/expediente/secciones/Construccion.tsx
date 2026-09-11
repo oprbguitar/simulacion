@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import {
   COSTOS_INDIRECTOS,
   DOSIFICACION_CONCRETO,
@@ -8,11 +8,13 @@ import {
 import { FUENTES } from '../../domain/life/fuentes'
 import { planDeEtapas, type Proyeccion } from '../../domain/life/motor'
 import { soles } from '../formato'
+import { DocumentoCompletoContext } from '../contexto'
 import { Aviso, Cifra, FichaTramite, Fuentes, Origenes, Seccion, TablaCostos } from '../piezas'
 
 export function SeccionConstruccion({ proyeccion }: { proyeccion: Proyeccion }) {
   const { perfil, costoObra, materiales } = proyeccion
   const [faseAbierta, setFaseAbierta] = useState<string | null>('cimentacion')
+  const completo = useContext(DocumentoCompletoContext)
   const etapas = planDeEtapas(perfil)
   const areaTotal = perfil.areaTechada * Math.max(1, perfil.pisos)
   const totalMateriales = materiales.reduce((s, m) => s + m.subtotalTipico, 0)
@@ -158,7 +160,7 @@ export function SeccionConstruccion({ proyeccion }: { proyeccion: Proyeccion }) 
       <ol className="ex-fases">
         {FASES_OBRA.map((fase) => {
           const etapa = etapas.find((e) => e.fase.id === fase.id)
-          const abierta = faseAbierta === fase.id
+          const abierta = completo || faseAbierta === fase.id
           return (
             <li key={fase.id} className={abierta ? 'ex-fase is-abierta' : 'ex-fase'}>
               <button type="button" onClick={() => setFaseAbierta(abierta ? null : fase.id)} aria-expanded={abierta}>

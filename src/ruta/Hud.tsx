@@ -4,20 +4,35 @@ import { AnimatedNumber, DeltaChip } from '../motion/primitives'
 import { springs } from '../motion/tokens'
 import type { Proyeccion } from '../domain/life/motor'
 import { plataCorta } from './formato'
+import { MODOS, type ModoId } from './modos'
+import { PASOS, type PasoId } from './pasos'
 
 /**
  * Barra de estado del tablero. Es el marcador del juego: siempre visible,
- * siempre reaccionando. Los tres números que importan y el avance de la ruta.
+ * siempre reaccionando. Arriba, los números que importan y los modos de
+ * juego; abajo, la línea de tiempo que se va sombreando con cada decisión.
  */
 export function Hud({
   proyeccion,
   anterior,
+  nombre,
+  paso,
+  hechos,
+  onIr,
+  modo,
+  onModo,
   puedeDeshacer,
   onDeshacer,
   onReiniciar,
 }: {
   proyeccion: Proyeccion
   anterior: Proyeccion | null
+  nombre: string
+  paso: number
+  hechos: ReadonlySet<PasoId>
+  onIr: (paso: number) => void
+  modo: ModoId | null
+  onModo: (modo: ModoId) => void
   puedeDeshacer: boolean
   onDeshacer: () => void
   onReiniciar: () => void
@@ -32,9 +47,6 @@ export function Hud({
   const obra = proyeccion.costoObra.tipico
   const deltaObra = anterior ? obra - anterior.costoObra.tipico : 0
 
-  // Avance: cuántas de las seis decisiones del tablero ya se tomaron.
-  const avance = Math.round((proyeccion.perfil.horizonteAnios / 30) * 100)
-
   return (
     <header className="rt-hud">
       <a className="rt-hud-marca" href="/">
@@ -43,7 +55,7 @@ export function Hud({
         </span>
         <span>
           <strong>La Ruta</strong>
-          <small>Horizonte · Perú</small>
+          <small>{nombre ? `de ${nombre}` : 'Horizonte · Perú'}</small>
         </span>
       </a>
 
@@ -87,6 +99,24 @@ export function Hud({
         </div>
       </dl>
 
+      <div className="rt-hud-modos" role="radiogroup" aria-label="Modo de juego: completa todas las fases de golpe">
+        {MODOS.map((m) => (
+          <button
+            key={m.id}
+            type="button"
+            role="radio"
+            aria-checked={modo === m.id}
+            className={modo === m.id ? `rt-modo modo-${m.id} es-on` : `rt-modo modo-${m.id}`}
+            onClick={() => onModo(m.id)}
+            aria-label={m.titulo}
+            title={m.bajada}
+          >
+            <span className="rt-modo-punto" aria-hidden="true" />
+            <span className="rt-modo-texto">{m.titulo}</span>
+          </button>
+        ))}
+      </div>
+
       <div className="rt-hud-controles">
         <motion.button
           type="button"
@@ -103,9 +133,22 @@ export function Hud({
         </motion.button>
       </div>
 
-      <div className="rt-hud-barra" aria-hidden="true">
-        <motion.span animate={{ width: `${avance}%` }} transition={{ duration: 0.26, ease: [0.2, 0, 0, 1] }} />
-      </div>
+      <nav className="rt-linea" aria-label="Línea de tiempo de la ruta">
+        <ol>
+          {PASOS.map((p, i) => {
+            const hecho = hechos.has(p.id)
+            const actual = i === paso
+            return (
+              <li key={p.id} className={`${hecho ? 'es-hecho' : ''}${actual ? ' es-actual' : ''}`}>
+                <button type="button" onClick={() => onIr(i)} aria-current={actual ? 'step' : undefined}>
+                  <span className="rt-linea-punto">{hecho && !actual ? <Icon name="check" size={12} /> : p.numero}</span>
+                  <span className="rt-linea-texto">{p.titulo}</span>
+                </button>
+              </li>
+            )
+          })}
+        </ol>
+      </nav>
     </header>
   )
 }

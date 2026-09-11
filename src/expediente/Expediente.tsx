@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { PERFIL_INICIAL, proyectar, type Perfil } from '../domain/life/motor'
+import { leerSesion } from '../ruta/sesion'
 import { Controles } from './Controles'
 import { soles } from './formato'
 import { Seccion } from './piezas'
@@ -22,7 +23,20 @@ const INDICE = [
 ]
 
 export function Expediente() {
-  const [perfil, setPerfil] = useState<Perfil>(PERFIL_INICIAL)
+  // Si la persona viene de La Ruta, el expediente muestra sus decisiones.
+  const [sesion] = useState(leerSesion)
+  const [perfil, setPerfil] = useState<Perfil>(sesion?.perfil ?? PERFIL_INICIAL)
+  const nombre = sesion?.nombre ?? ''
+  const [descargando, setDescargando] = useState(false)
+  const descargar = async () => {
+    setDescargando(true)
+    try {
+      const { descargarExpediente } = await import('./descarga')
+      descargarExpediente(perfil, nombre)
+    } finally {
+      setDescargando(false)
+    }
+  }
   const [indiceAbierto, setIndiceAbierto] = useState(false)
   const proyeccion = useMemo(() => proyectar(perfil), [perfil])
   const cambio = (parcial: Partial<Perfil>) => setPerfil((actual) => ({ ...actual, ...parcial }))
@@ -71,12 +85,17 @@ export function Expediente() {
               <dd className={sinFondos ? 'ex-dato-riesgo' : undefined}>{sinFondos ? `Año ${sinFondos.anio}` : 'No'}</dd>
             </div>
           </dl>
+          <button type="button" className="ex-descargar" onClick={descargar} disabled={descargando} aria-busy={descargando}>
+            {descargando ? 'Preparando…' : 'Descargar mi expediente'}
+          </button>
         </div>
       </aside>
 
       <main className="ex-documento">
         <header className="ex-portada">
-          <p className="ex-kicker">Simulación educativa · datos con fuente y fecha de verificación</p>
+          <p className="ex-kicker">
+            {nombre.trim() ? `Expediente de ${nombre.trim()} · ` : ''}Simulación educativa · datos con fuente y fecha de verificación
+          </p>
           <h1>
             Llegaste al Perú. Este es el ciclo completo: comprar dónde vivir, construir por etapas, criar, educar, trabajar y aguantar lo que no estaba
             en el plan.

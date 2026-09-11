@@ -138,3 +138,12 @@ Asignada por el harness en modo `experience` y registrada en
 - Responsive en 360 / 768 / 1280 / 1600. Por debajo de 820 px el marcador suelta
   el «horizonte» y por debajo de 560 px también «cuesta construir»: en pantalla
   chica se quedan las dos cifras que deciden algo.
+
+## v0.9 — Recorrido horizontal, nombre, modos y descarga
+
+- **Pantallas**: `src/ruta/pasos.ts` define las diez pantallas. `Ruta.tsx` muestra una a la vez con `AnimatePresence` (deslizamiento lateral, respetando `prefers-reduced-motion` vía `MotionConfig`). Flechas laterales fijas, botones al pie y teclas ← → (ignoradas mientras se escribe o hay un cajón abierto).
+- **Línea de tiempo**: vive en `Hud.tsx`. Un paso queda sombreado si se decidió algo en él, si ya se pasó por él o si se aplicó un modo.
+- **Modos** (`src/ruta/modos.ts`): Relajado y Equilibrado son presets; Pro busca por fuerza bruta sobre el motor la combinación con más patrimonio final sin alertas críticas. Respetan el punto de partida y los hijos.
+- **Sesión** (`src/ruta/sesion.ts`): nombre y perfil en `localStorage` (`horizonte:ruta:v1`). El expediente en pantalla los lee al abrir.
+- **Descarga** (`src/expediente/descarga.tsx` + `Documento.tsx`): `renderToStaticMarkup` del documento completo con el CSS del expediente incrustado; se carga bajo demanda para no pesar en la primera visita.
+- **Plegables**: `PlegadoContext` (en `src/expediente/contexto.ts`) lo activa el `Cajon`; `Seccion` agrupa sus hijos por cada `<h3>` en `<details>`. Fuera del cajón todo se muestra corrido.

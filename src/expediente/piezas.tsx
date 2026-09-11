@@ -1,7 +1,65 @@
-import type { ReactNode } from 'react'
+import { Children, isValidElement, useContext, type ReactNode } from 'react'
 import type { Fuente, ItemCosto, Monto, Origen, Tramite } from '../domain/life/tipos'
+import { PlegadoContext } from './contexto'
 
 /** Piezas compartidas del expediente. Nada de esto decide layout: solo formato. */
+
+export function Plegable({
+  titulo,
+  variante,
+  children,
+}: {
+  titulo: ReactNode
+  variante?: 'compacto' | 'fuentes'
+  children: ReactNode
+}) {
+  return (
+    <details className={variante ? `ex-plegable ex-plegable-${variante}` : 'ex-plegable'}>
+      <summary>
+        <span>{titulo}</span>
+      </summary>
+      <div className="ex-plegable-cuerpo">{children}</div>
+    </details>
+  )
+}
+
+/**
+ * Agrupa los hijos directos de una sección bajo cada <h3>. Lo que va antes
+ * del primer <h3> queda visible como resumen; unas Fuentes al final forman
+ * su propio bloque.
+ */
+function agrupar(children: ReactNode): ReactNode {
+  const hijos = Children.toArray(children)
+  const resumen: ReactNode[] = []
+  const grupos: { titulo: ReactNode; variante?: 'fuentes'; items: ReactNode[] }[] = []
+
+  hijos.forEach((hijo, indice) => {
+    if (isValidElement(hijo) && hijo.type === 'h3') {
+      grupos.push({ titulo: (hijo.props as { children?: ReactNode }).children, items: [] })
+    } else if (isValidElement(hijo) && hijo.type === Fuentes && indice === hijos.length - 1) {
+      grupos.push({ titulo: (hijo.props as { titulo?: string }).titulo ?? 'Consultar en la entidad', variante: 'fuentes', items: [hijo] })
+    } else if (grupos.length > 0) {
+      grupos[grupos.length - 1].items.push(hijo)
+    } else {
+      resumen.push(hijo)
+    }
+  })
+
+  return (
+    <>
+      {resumen}
+      {grupos.length > 0 ? (
+        <div className="ex-plegables">
+          {grupos.map((grupo, i) => (
+            <Plegable key={i} titulo={grupo.titulo} variante={grupo.variante}>
+              {grupo.items}
+            </Plegable>
+          ))}
+        </div>
+      ) : null}
+    </>
+  )
+}
 
 const ETIQUETA_ORIGEN: Record<Origen, string> = {
   OFICIAL: 'Oficial',
@@ -159,6 +217,7 @@ export function Seccion({
   bajada: string
   children: ReactNode
 }) {
+  const plegado = useContext(PlegadoContext)
   return (
     <section className="ex-seccion" id={id} aria-labelledby={`${id}-titulo`}>
       <header className="ex-seccion-head">
@@ -168,7 +227,7 @@ export function Seccion({
           <p>{bajada}</p>
         </div>
       </header>
-      {children}
+      {plegado ? agrupar(children) : children}
     </section>
   )
 }

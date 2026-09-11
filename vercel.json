@@ -4,7 +4,9 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/_studio", "destination": "/index.html" }
+    { "source": "/_studio", "destination": "/index.html" },
+    { "source": "/_expediente", "destination": "/index.html" },
+    { "source": "/_legacy", "destination": "/index.html" }
   ],
   "headers": [
     {

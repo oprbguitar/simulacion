@@ -9,25 +9,26 @@
  * ==================================================================== */
 
 .ex-shell,
-.rt-cajon-cuerpo {
+.rt-cajon-cuerpo,
+.ex-descarga {
   /* --- color */
-  --ex-tinta: #191b18;
-  --ex-tinta-2: #4a504a;
-  --ex-tinta-3: #767d75;
-  --ex-papel: #f6f7f3;
-  --ex-papel-2: #fdfdfb;
-  --ex-papel-3: #ecefe6;
-  --ex-linea: #d5dacd;
-  --ex-linea-fuerte: #a8b09e;
-  --ex-lima: #74b816;
-  --ex-lima-oscuro: #4d7c0c;
-  --ex-lima-tenue: #eef7e0;
+  --ex-tinta: #0f172a;
+  --ex-tinta-2: #334155;
+  --ex-tinta-3: #64748b;
+  --ex-papel: #fafaf8;
+  --ex-papel-2: #ffffff;
+  --ex-papel-3: #f1f5f9;
+  --ex-linea: #e2e8f0;
+  --ex-linea-fuerte: #cbd5e1;
+  --ex-lima: #16a34a;
+  --ex-lima-oscuro: #15803d;
+  --ex-lima-tenue: #dcfce7;
   --ex-azul: #4263eb;
   --ex-azul-tenue: #eaeefe;
-  --ex-alarma: #c0392b;
-  --ex-alarma-tenue: #fbeceb;
-  --ex-ambar: #a86a00;
-  --ex-ambar-tenue: #fdf3e2;
+  --ex-alarma: #dc2626;
+  --ex-alarma-tenue: #fee2e2;
+  --ex-ambar: #b45309;
+  --ex-ambar-tenue: #fef3c7;
 
   /* --- espacio */
   --ex-1: 4px;
@@ -68,7 +69,10 @@
 .ex-shell *::after,
 .rt-cajon-cuerpo *,
 .rt-cajon-cuerpo *::before,
-.rt-cajon-cuerpo *::after {
+.rt-cajon-cuerpo *::after,
+.ex-descarga *,
+.ex-descarga *::before,
+.ex-descarga *::after {
   box-sizing: border-box;
 }
 
@@ -1539,5 +1543,191 @@
   }
   .ex-fase-cuerpo {
     display: block !important;
+  }
+}
+
+/* ------------------------------------------------------ bloques plegables
+   Dentro del cajón de La Ruta cada bloque se lee como una fila de lista:
+   solo el título hasta que se abre. Mismo lenguaje que las fases de obra. */
+
+.ex-plegables {
+  margin-top: var(--ex-5);
+  border: 1px solid var(--ex-linea-fuerte);
+  border-radius: var(--ex-r);
+  background: var(--ex-papel-2);
+}
+.ex-plegable + .ex-plegable {
+  border-top: 1px solid var(--ex-linea);
+}
+.ex-plegable > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ex-3);
+  min-height: 48px;
+  padding: var(--ex-3) var(--ex-4);
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--ex-t) var(--ex-easing);
+}
+.ex-plegable > summary::-webkit-details-marker {
+  display: none;
+}
+.ex-plegable > summary::after {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--ex-tinta-2);
+  border-bottom: 2px solid var(--ex-tinta-2);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform var(--ex-t) var(--ex-easing);
+}
+.ex-plegable > summary:hover {
+  background: var(--ex-lima-tenue);
+}
+.ex-plegable > summary:active {
+  background: var(--ex-papel-3);
+}
+.ex-plegable[open] > summary {
+  background: var(--ex-papel-3);
+  box-shadow: inset 3px 0 0 var(--ex-lima);
+}
+.ex-plegable[open] > summary::after {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+.ex-plegable-cuerpo {
+  min-width: 0;
+  padding: var(--ex-4);
+  background: var(--ex-papel);
+  border-top: 1px solid var(--ex-linea);
+}
+.ex-plegable-cuerpo > :first-child {
+  margin-top: 0;
+}
+.ex-plegable-cuerpo > :last-child {
+  margin-bottom: 0;
+}
+/* El título ya está en la fila: no se repite dentro. */
+.ex-plegable-fuentes .ex-fuentes > h4,
+.ex-plegable-cuerpo > fieldset > legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ex-plegable-cuerpo > fieldset {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+/* En el formulario de ajuste los grupos forman una sola lista. */
+.ex-controles > .ex-plegable {
+  border: 1px solid var(--ex-linea-fuerte);
+  border-radius: var(--ex-r);
+  background: var(--ex-papel-2);
+}
+.ex-controles > .ex-plegable + .ex-plegable {
+  margin-top: calc(var(--ex-1) * -1);
+  border-top-color: var(--ex-linea);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+/* Dentro de un imprevisto el detalle se abre como una fila secundaria. */
+.ex-plegable-compacto {
+  margin-top: var(--ex-3);
+  border-top: 1px solid var(--ex-linea);
+}
+.ex-plegable-compacto > summary {
+  min-height: 40px;
+  padding: var(--ex-2) 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ex-tinta-2);
+}
+.ex-plegable-compacto > summary:hover,
+.ex-plegable-compacto[open] > summary {
+  background: none;
+  box-shadow: none;
+  color: var(--ex-lima-oscuro);
+}
+.ex-plegable-compacto > .ex-plegable-cuerpo {
+  padding: 0;
+  background: none;
+  border-top: 0;
+}
+
+@media (max-width: 560px) {
+  .ex-plegable > summary {
+    padding-inline: var(--ex-3);
+  }
+  .ex-plegable-cuerpo {
+    padding: var(--ex-3);
+  }
+}
+
+/* ---------------------------------------------- expediente descargable */
+
+.ex-descarga {
+  background: var(--ex-papel);
+}
+.ex-descarga .ex-documento {
+  margin: 0 auto;
+}
+.ex-elecciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin: var(--ex-5) 0 0;
+  border: 1px solid var(--ex-linea-fuerte);
+  border-radius: var(--ex-r);
+  background: var(--ex-papel-2);
+}
+.ex-elecciones > div {
+  padding: var(--ex-3) var(--ex-4);
+  border-bottom: 1px solid var(--ex-linea);
+}
+.ex-elecciones dt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ex-tinta-3);
+}
+.ex-elecciones dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+}
+.ex-descargar {
+  width: 100%;
+  min-height: 44px;
+  margin-top: var(--ex-4);
+  border: 0;
+  border-radius: var(--ex-r);
+  background: var(--ex-lima);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--ex-t) var(--ex-easing);
+}
+.ex-descargar:hover {
+  background: var(--ex-lima-oscuro);
+}
+.ex-descargar:disabled {
+  cursor: progress;
+}
+
+@media print {
+  .ex-descarga .ex-documento {
+    padding: 0;
   }
 }

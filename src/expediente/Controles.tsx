@@ -1,7 +1,10 @@
 import type { Perfil } from '../domain/life/motor'
 import { MODOS_INGRESO } from '../domain/life/catalogo/trabajo'
 import { RUTAS_VIVIENDA } from '../domain/life/catalogo/vivienda'
+import { useContext } from 'react'
 import { soles } from './formato'
+import { PlegadoContext } from './contexto'
+import { Plegable } from './piezas'
 
 interface Props {
   perfil: Perfil
@@ -39,6 +42,18 @@ function Campo({
   )
 }
 
+/** Un bloque del formulario. Dentro del cajón de La Ruta se pliega. */
+function Grupo({ leyenda, children }: { leyenda: string; children: React.ReactNode }) {
+  const plegado = useContext(PlegadoContext)
+  const campos = (
+    <fieldset>
+      <legend>{leyenda}</legend>
+      {children}
+    </fieldset>
+  )
+  return plegado ? <Plegable titulo={leyenda}>{campos}</Plegable> : campos
+}
+
 export function Controles({ perfil, onCambio }: Props) {
   const num = (valor: string) => {
     const n = Number(valor)
@@ -47,8 +62,7 @@ export function Controles({ perfil, onCambio }: Props) {
 
   return (
     <div className="ex-controles">
-      <fieldset>
-        <legend>Quién eres hoy</legend>
+      <Grupo leyenda="Quién eres hoy">
         <div className="ex-grid-campos">
           <Campo etiqueta="Edad">
             <input type="number" min={16} max={70} value={perfil.edadInicial} onChange={(e) => onCambio({ edadInicial: num(e.target.value) })} />
@@ -91,10 +105,9 @@ export function Controles({ perfil, onCambio }: Props) {
             </select>
           </Campo>
         </div>
-      </fieldset>
+      </Grupo>
 
-      <fieldset>
-        <legend>Cómo llegas a la vivienda</legend>
+      <Grupo leyenda="Cómo llegas a la vivienda">
         <div className="ex-opciones">
           {RUTAS_VIVIENDA.map((ruta) => (
             <button
@@ -140,10 +153,9 @@ export function Controles({ perfil, onCambio }: Props) {
             <input type="number" min={0} step={0.1} value={perfil.teaAnual} onChange={(e) => onCambio({ teaAnual: num(e.target.value) })} />
           </Campo>
         </div>
-      </fieldset>
+      </Grupo>
 
-      <fieldset>
-        <legend>Qué vas a construir</legend>
+      <Grupo leyenda="Qué vas a construir">
         <div className="ex-grid-campos">
           <Campo etiqueta="Área techada por piso (m²)">
             <input type="number" min={20} max={400} step={5} value={perfil.areaTechada} onChange={(e) => onCambio({ areaTechada: num(e.target.value) })} />
@@ -172,10 +184,9 @@ export function Controles({ perfil, onCambio }: Props) {
             </button>
           ))}
         </div>
-      </fieldset>
+      </Grupo>
 
-      <fieldset>
-        <legend>Hijos</legend>
+      <Grupo leyenda="Hijos">
         <div className="ex-hijos">
           {perfil.hijos.map((hijo, indice) => (
             <div className="ex-hijo" key={hijo.id}>
@@ -232,7 +243,7 @@ export function Controles({ perfil, onCambio }: Props) {
         >
           Añadir un hijo a la proyección
         </button>
-      </fieldset>
+      </Grupo>
     </div>
   )
 }

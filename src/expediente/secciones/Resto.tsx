@@ -4,8 +4,10 @@ import { UIT } from '../../domain/life/catalogo/vivienda'
 import { IMPREVISTOS } from '../../domain/life/catalogo/imprevistos'
 import { LISTA_FUENTES } from '../../domain/life/fuentes'
 import type { Perfil, Proyeccion } from '../../domain/life/motor'
+import { useContext } from 'react'
 import { soles } from '../formato'
-import { Aviso, Cifra, Enlace, Fuentes, Origenes, Seccion, TablaCostos } from '../piezas'
+import { PlegadoContext } from '../contexto'
+import { Aviso, Cifra, Enlace, Fuentes, Origenes, Plegable, Seccion, TablaCostos } from '../piezas'
 
 // ------------------------------------------------------------------ servicios
 
@@ -46,6 +48,7 @@ export function SeccionServicios({ proyeccion }: { proyeccion: Proyeccion }) {
         </dl>
       </div>
 
+      <h3>Consumo de referencia según el tamaño del hogar</h3>
       <div className="ex-tabla-envoltura">
         <table className="ex-tabla ex-tabla-compacta">
           <thead>
@@ -120,6 +123,7 @@ export function SeccionTrabajo({ proyeccion }: { proyeccion: Proyeccion }) {
         </dl>
       </div>
 
+      <h3>Cómo se compara cada vía de ingreso</h3>
       <div className="ex-modos">
         {MODOS_INGRESO.map((m) => (
           <article key={m.id} className={m.id === modo.id ? 'ex-modo is-activo' : 'ex-modo'}>
@@ -207,6 +211,7 @@ export function SeccionImprevistos({
   perfil: Perfil
   onCambio: (parcial: Partial<Perfil>) => void
 }) {
+  const plegado = useContext(PlegadoContext)
   const alternar = (id: string) => {
     const activos = perfil.imprevistosActivos.includes(id)
       ? perfil.imprevistosActivos.filter((x) => x !== id)
@@ -224,17 +229,8 @@ export function SeccionImprevistos({
       <div className="ex-imprevistos">
         {IMPREVISTOS.map((ev) => {
           const activo = perfil.imprevistosActivos.includes(ev.id)
-          return (
-            <article key={ev.id} className={activo ? 'ex-imprevisto is-on' : 'ex-imprevisto'}>
-              <button type="button" onClick={() => alternar(ev.id)} aria-pressed={activo}>
-                <span className="ex-imprevisto-check" aria-hidden="true">
-                  {activo ? '✓' : ''}
-                </span>
-                <span>
-                  <strong>{ev.titulo}</strong>
-                  <small>Frecuencia anual de referencia: {(ev.probabilidadAnual * 100).toFixed(0)} %</small>
-                </span>
-              </button>
+          const detalle = (
+            <>
               <p>{ev.detalle}</p>
               <p className="ex-imprevisto-impacto">
                 <span>Impacto</span>
@@ -247,6 +243,26 @@ export function SeccionImprevistos({
                 ))}
               </ul>
               <Fuentes items={ev.fuentes} titulo="A dónde acudir" />
+            </>
+          )
+          return (
+            <article key={ev.id} className={activo ? 'ex-imprevisto is-on' : 'ex-imprevisto'}>
+              <button type="button" onClick={() => alternar(ev.id)} aria-pressed={activo}>
+                <span className="ex-imprevisto-check" aria-hidden="true">
+                  {activo ? '✓' : ''}
+                </span>
+                <span>
+                  <strong>{ev.titulo}</strong>
+                  <small>Frecuencia anual de referencia: {(ev.probabilidadAnual * 100).toFixed(0)} %</small>
+                </span>
+              </button>
+              {plegado ? (
+                <Plegable titulo="Impacto, qué reduce el daño y a dónde acudir" variante="compacto">
+                  {detalle}
+                </Plegable>
+              ) : (
+                detalle
+              )}
             </article>
           )
         })}

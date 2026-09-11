@@ -71,7 +71,7 @@ export function BandaTrabajo({
   return (
     <Banda
       id="trabajo"
-      paso="05"
+      paso="06"
       tono="oceano"
       titulo="¿De qué vives?"
       gancho="Cinco formas de generar el mismo ingreso. Cambian cuánto te descuentan, cuánto te protegen y qué pasa el día que te enfermas."

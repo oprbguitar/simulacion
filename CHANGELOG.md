@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.9.0] — 2026-09-11
+
+La Ruta deja de ser un scroll largo: se recorre de lado, pantalla por pantalla, y al final se lleva un expediente con tu nombre.
+
+### Added
+
+- **navegación horizontal**: una pantalla por capítulo, flechas laterales animadas para avanzar y regresar, botones al pie de cada pantalla y teclas ← →;
+- **línea de tiempo en el marcador**: diez puntos que se sombrean al decidir o al pasar por cada pantalla, marcan dónde estás y permiten saltar a cualquiera;
+- **tu nombre** en la portada: acompaña el marcador, el cierre y el expediente descargable. Se guarda solo en `localStorage`;
+- **tres modos de juego** en el marcador —Relajado, Equilibrado y Pro— que completan todas las fases de golpe. Pro prueba 162 combinaciones que terminan con casa propia y se queda con la que deja más patrimonio sin alertas críticas;
+- **descarga del expediente completo** (`expediente-<nombre>-<fecha>.html`): lo que elegiste, el resultado de tu ruta y todo el detalle con fuentes, sin nada plegado. Se genera en el navegador y se puede imprimir o guardar como PDF;
+- **listas plegables en los cajones**: cada bloque de detalle (trámites, metrados, tarifas, regímenes, imprevistos, tabla de años, ajuste fino) muestra solo su título hasta que se abre.
+
+### Changed
+
+- **paleta clara**: fondos `#FAFAF8` con tintes suaves por capítulo, texto `#0F172A`, verde `#16A34A` para acción, `#DCFCE7` para lo elegido, naranja `#F59E0B` para resaltar y rojo `#EF4444` para alertas. Ya no hay bandas oscuras;
+- el expediente en pantalla (`/_expediente`) abre con las decisiones tomadas en La Ruta y tiene su propio botón de descarga;
+- los pasos de las bandas se renumeran sin repetidos (01–08).
+
+### Fixed
+
+- `/_expediente` y `/_legacy` daban 404 al entrar directo en Vercel: faltaban en las reescrituras de `vercel.json`.
+
 ## [0.8.0] — 2026-09-09
 
 La misma información, jugable. El expediente era correcto y aburrido para su público; ahora hay una superficie que se recorre y otra que se consulta, sobre el mismo motor.

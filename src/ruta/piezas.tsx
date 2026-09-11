@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { Icon, type IconName } from '../components/Icon'
 import { springs } from '../motion/tokens'
+import { PlegadoContext } from '../expediente/contexto'
 
 /**
  * Piezas de «La Ruta».
@@ -251,7 +252,9 @@ export function Cajon({
                   <Icon name="close" size={20} />
                 </button>
               </header>
-              <div className="rt-cajon-cuerpo">{children}</div>
+              <div className="rt-cajon-cuerpo">
+                <PlegadoContext.Provider value={true}>{children}</PlegadoContext.Provider>
+              </div>
             </motion.aside>
           </motion.div>
         ) : null}
